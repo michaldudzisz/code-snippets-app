@@ -1,10 +1,8 @@
 *.
-.qmake.stash
-target
-Makefile
 generated_files
 objects
 target
 Makefile
 cmake_install.cmake
 .gitignore
+CMakeFiles
