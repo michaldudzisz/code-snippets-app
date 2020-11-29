@@ -1,0 +1,6 @@
+*.
+.qmake.stash
+target
+Makefile
+generated_files
+objects
