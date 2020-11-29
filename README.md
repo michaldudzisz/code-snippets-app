@@ -23,3 +23,10 @@ Powyższa metoda nie działa dla niektórych wersji cmake.
 Aby uruchomić tak stworzony plik należy wykonać: `./build/bin/desktop_app`
 Aby uruchomić testy nalezy: `cd build && make test`
 
+
+Instalacja biblioteki boost globalnie:
+`sudo apt-get install libboost-all-dev`
+
+Instalacja QT5 globalnie:
+`sudo apt-get install qt5-default`
+
