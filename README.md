@@ -12,6 +12,6 @@ W celu uruchomienia projektu:
 `./bin/desktop_app`
 
 W celu uruchomienia testów:
-`make test1`
+`make test`
 
 
