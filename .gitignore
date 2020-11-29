@@ -10,3 +10,4 @@ desktop_app_autogen
 CMakeCache.txt
 CTestTestfile.cmake
 Testing
+build
