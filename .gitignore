@@ -8,3 +8,5 @@ bin
 main_autogen
 desktop_app_autogen
 CMakeCache.txt
+CTestTestfile.cmake
+Testing

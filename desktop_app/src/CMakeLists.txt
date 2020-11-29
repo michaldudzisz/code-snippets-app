@@ -1,6 +1,4 @@
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin) 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
-
+add_library(Example example.cpp example.h)
 
 add_executable(${PROJECT_NAME} main.cpp)
 
