@@ -1,4 +1,0 @@
-/home/mike/studies/zpr/proj/desktop_app/CMakeFiles/rebuild_cache.dir
-/home/mike/studies/zpr/proj/desktop_app/CMakeFiles/edit_cache.dir
-/home/mike/studies/zpr/proj/desktop_app/CMakeFiles/main.dir
-/home/mike/studies/zpr/proj/desktop_app/CMakeFiles/main_autogen.dir

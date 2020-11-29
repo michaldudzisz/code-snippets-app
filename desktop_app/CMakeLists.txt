@@ -2,10 +2,16 @@ cmake_minimum_required(VERSION 3.1.0)
 
 project(main VERSION 1.0.0 LANGUAGES CXX)
 
+include_directories(${PROJECT_SOURCE_DIR}/headers)
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CMAKE_AUTOMOC ON)
+#set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
@@ -18,3 +24,4 @@ find_package(Qt5 COMPONENTS Widgets REQUIRED)
 add_executable(main main.cpp)
 
 target_link_libraries(main Qt5::Widgets)
+

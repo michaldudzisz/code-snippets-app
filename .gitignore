@@ -1,8 +1,10 @@
-*.
 generated_files
+CMakeFiles
 objects
 target
 Makefile
 cmake_install.cmake
-.gitignore
-CMakeFiles
+bin
+main_autogen
+
+
