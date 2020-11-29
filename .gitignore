@@ -6,5 +6,4 @@ Makefile
 cmake_install.cmake
 bin
 main_autogen
-
-
+desktop_app_autogen
