@@ -4,6 +4,8 @@
 ## Przykładowe uruchomienie projektu na GNU/Linux Ubuntu 20.04
 
 
+Zakłada się, że użytkownik ma zainstalowane globalnie biblioteki boost. Jeśli nie ma, to może to zrobić tak: `sudo apt-get install libboost-all-dev`
+
 W celu stworzenia środowiska dla pythona:
 
 1. `$ python3 -m venv env`
