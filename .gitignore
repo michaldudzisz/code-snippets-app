@@ -11,3 +11,4 @@ CMakeCache.txt
 CTestTestfile.cmake
 Testing
 build
+.*
