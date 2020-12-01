@@ -23,3 +23,5 @@ Uruchomienie aplikacji:
 9. `$ flask run`
 
 
+# Testowanie 
+W terminalu zostanie wypisany numer portu, pod którym działa serwer. Wystarczy wpisać `localhost:5000` w ulubionej rpzeglądarce internetowej, by otrzymać powitanie. Opóźnienie świadczy o działaniu obliczeń wykonywanych w języku c++.
