@@ -12,3 +12,10 @@ CTestTestfile.cmake
 Testing
 build
 .*
+
+# do not keep build output files
+server/build/*
+# except for one in order to keep the directory
+!/server/build/.gitkeep
+
+server/env
