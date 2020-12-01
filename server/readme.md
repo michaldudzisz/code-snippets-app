@@ -12,17 +12,18 @@ W celu stworzenia środowiska dla pythona:
 2. `$ source ./env/bin/activate`
 3. `$ pip install flask`
 
-Budowanie projektu:
+Budowanie projektu. Będąc w katalogu `server`.
 
-4. `$ cd ./build`
-5. `$ cmake ..`
-6. `$ make`
+4. `$ mkdir build`
+5. `cd ./build`
+6. `$ cmake ..`
+7. `$ make`
 
 Uruchomienie aplikacji:
 
-7. `$ cd ..`
-8. `$ export FLASK_APP=./build/src/server.py`
-9. `$ flask run`
+8. `$ cd ..`
+9. `$ export FLASK_APP=./build/src/server.py`
+10. `$ flask run`
 
 Ważne, by uruchamiać je znajdując się w aktywnym środowisku wirtualnym interpretera Python.
 
