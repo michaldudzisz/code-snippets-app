@@ -22,6 +22,7 @@ Uruchomienie aplikacji:
 8. `$ export FLASK_APP=./build/src/server.py`
 9. `$ flask run`
 
+Ważne, by uruchamiać je znajdując się w aktywnym środowisku wirtualnym interpretera Python.
 
 # Testowanie 
 W terminalu zostanie wypisany numer portu (domyślnie 5000), pod którym działa serwer. Wystarczy wpisać `localhost:<numer portu>` w ulubionej rpzeglądarce internetowej, by otrzymać powitanie. Opóźnienie świadczy o działaniu obliczeń wykonywanych w języku c++.
