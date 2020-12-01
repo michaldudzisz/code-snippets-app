@@ -5,7 +5,10 @@
 
 void performCalculations(int arg) {
 
-	for (int i = 0; i < arg; ++i)
+	int a = 0;
+	for (int i = 0; i < arg; ++i) {
+		a++;
+	}
 
 	return;
 }

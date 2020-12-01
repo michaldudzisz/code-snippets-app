@@ -6,6 +6,6 @@ app = Flask(__name__)
 
 @app.route('/')
 def main_site():
-	cpp_logic.performCalculations(100)
+	cpp_logic.performCalculations(10000000)
 	return 'Server is working!'
 
