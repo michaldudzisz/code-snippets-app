@@ -24,4 +24,4 @@ Uruchomienie aplikacji:
 
 
 # Testowanie 
-W terminalu zostanie wypisany numer portu, pod którym działa serwer. Wystarczy wpisać `localhost:5000` w ulubionej rpzeglądarce internetowej, by otrzymać powitanie. Opóźnienie świadczy o działaniu obliczeń wykonywanych w języku c++.
+W terminalu zostanie wypisany numer portu (domyślnie 5000), pod którym działa serwer. Wystarczy wpisać `localhost:<numer portu>` w ulubionej rpzeglądarce internetowej, by otrzymać powitanie. Opóźnienie świadczy o działaniu obliczeń wykonywanych w języku c++.
