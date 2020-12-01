@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 
+project(server)
+
 FIND_PACKAGE(PythonInterp)
 
 if (PYTHONINTERP_FOUND)
