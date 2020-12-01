@@ -1,25 +1,25 @@
-# Serwer
-## Aby uruchomić aplikację serwera ze źródeł należy:
+# Szkielet aplikacji serwera:
 
-### Na platformie Linux:
+
+## Przykładowe uruchomienie projektu na GNU/Linux Ubuntu 20.04
+
 
 W celu stworzenia środowiska dla pythona:
 
-`$ python3 -m venv env`
-`$ source ./env/bin/activate`
-`$ pip install flask`
+1. `$ python3 -m venv env`
+2. `$ source ./env/bin/activate`
+3. `$ pip install flask`
 
 Budowanie projektu:
 
-`$ cd ./build`
-`$ cmake ..`
-`$ make`
+4. `$ cd ./build`
+5. `$ cmake ..`
+6. `$ make`
 
 Uruchomienie aplikacji:
 
-`$ cd ..`
-`$ export FLASK_APP=./build/src/server.py`
-`$ flask run`
-
+7. `$ cd ..`
+8. `$ export FLASK_APP=./build/src/server.py`
+9. `$ flask run`
 
 
