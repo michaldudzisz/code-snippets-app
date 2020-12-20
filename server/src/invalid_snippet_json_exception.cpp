@@ -4,8 +4,8 @@
 
 InvalidSnippetJsonException::InvalidSnippetJsonException()
 {
-    message_ = std::string("Given json object does not include all necessary fields. "
-                           "Necessary fields are: author, created, lang, content.");
+    message_ = std::string("Problem with parsing json snippet object. "
+                           "Necessary fields are: author, created, lang, content, and all are strings.");
 };
 
 const char *InvalidSnippetJsonException::what() const throw()
