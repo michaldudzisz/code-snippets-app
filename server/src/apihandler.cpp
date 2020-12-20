@@ -11,11 +11,6 @@
 #include "too_long_content_exception.h"
 #include "invalid_snippet_json_exception.h"
 
-// zrobic cos, zeby linkowana biblioteka automatycznie
-// dodowala sie do zmiennej systemowej (qmake?)
-// o to:
-// LD_LIBRARY_PATH=$LD_LIBRARY_PATH://home/mdudzisz/zpr/cpp-server-test/lib
-// export LD_LIBRARY_PATH
 
 ApiHandler::ApiHandler()
 {
@@ -52,8 +47,6 @@ void ApiHandler::registerSnippet(Snippet &s)
 void ApiHandler::handleGetRequest(QHttpEngine::Socket *socket)
 {
     QJsonArray response; 
-    QJsonObject date_test = Snippet("michal", "c++", "int main() { return 0; }").toJson();
-    response.push_back(date_test);
 
     for (int i = 0; i < snippets_.length(); ++i)
         response.push_back(snippets_[i].toJson());
