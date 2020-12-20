@@ -4,28 +4,36 @@
 ## Przykładowe uruchomienie projektu na GNU/Linux Ubuntu 20.04
 
 
-Zakłada się, że użytkownik ma zainstalowane globalnie biblioteki boost. Jeśli nie ma, to może to zrobić tak: `sudo apt-get install libboost-all-dev`
+Zakłada się, że użytkownik ma zainstalowane globalnie biblioteki qt5. Jeśli nie ma, to może to zrobić tak: `sudo apt-get install qt5-default`.
 
-W celu stworzenia środowiska dla pythona:
+Serwer wykorzystuje zewnętrzną bibliotekę opartą na qt - [qhttpengine](https://github.com/nitroshare/qhttpengine). Jej pliki źródłowe są dołączone do projektu<sup>1)</sup> code-snippet-app, nie trzeba więc jej dodatkowo pobierać. Aby ją zainstalować (w folderze projektu, nie globalnie) należy przejść w terminalu do folderu z projektem i wywołać komendy:
 
-1. `$ python3 -m venv env`
-2. `$ source ./env/bin/activate`
-3. `$ pip install flask`
+1. `$ cd server/lib/qhttpengine`
+2. `$ cmake CMakeLists.txt -B build`
+3. `$ cd build`
+4. `$ make install` - nie przejmować się błędem :( naprawię
+5. `$ cd ../../lib`
+6. `$ LD_LIBRARY_PATH=LD_LIBRARY_PATH=$LD_LIBRARY_PATH:\`pwd\`` - i o to zautomatyzuję. Na razie trzeba to robić w każdym shellu, w którym chce się wywołać server
+7. `$ export LD_LIBRARY_PATH`
 
 Budowanie projektu. Będąc w katalogu `server`.
 
-4. `$ mkdir build`
-5. `cd ./build`
-6. `$ cmake ..`
-7. `$ make`
+8. `$ cd src`
+9. `$ qmake`
+10. `$ make`
 
-Uruchomienie aplikacji:
+Uruchomienie aplikacji (będąc w katalogu `server/src`):
 
-8. `$ cd ..`
-9. `$ export FLASK_APP=./build/src/server.py`
-10. `$ flask run`
-
-Ważne, by uruchamiać je znajdując się w aktywnym środowisku wirtualnym interpretera Python.
+10. `$ server`
 
 # Testowanie 
-W terminalu zostanie wypisany numer portu (domyślnie 5000), pod którym działa serwer. Wystarczy wpisać `localhost:<numer portu>` w ulubionej przeglądarce internetowej, by otrzymać powitanie. Opóźnienie świadczy o działaniu obliczeń wykonywanych w języku c++.
+Serwer nasłuchuje na porcie 8000 pod adresem `app` (`localhost:8000/app`). Przyjmuje zapytania `POST` z body w formacie json z polami:
+
+* `author` - string (np. `QString`) max 30 znaków
+* `created` - obiekt klasy `QDateTime` sparsowany na string (np. `QString`)
+* `lang` - jeden z dozwolonych przez zmienną `Snippet::availableLangs_` napisów identyfikujących język
+* `content` - string o długości max 1000 znaków
+
+oraz zapytania `GET` o dowolnym body. Odpowiedzą na zapytanie typu `GET` jest lista maksymalnie 5 snippetów w formacie json ostatnio dodanych przez zapytania `POST`. Nie jest ona przechowywana w pamięci nieulotnej - by otrzymać snippety z serwera, należy je zapostować w ciągu działania programu.
+
+<sup>1)</sup> jedyną zmianą w kodzie źródłowym jest zmiana zmiennych `BIN_INSTALL_DIR`, `LIB_INSTALL_DIR`, `INCLUDE_INSTALL_DIR` na ścieżki w obrębie folderu aplikacji (by nie instalować biblioteki globalnie). Może skutkować brakiem działania dołączonych do biblioteki przykładów (examples).
