@@ -1,4 +1,3 @@
-
 # Szkielet aplikacji serwera:
 
   
@@ -13,7 +12,7 @@ Zakłada się, że użytkownik ma zainstalowane globalnie biblioteki qt5. Jeśli
 
   
 
-Serwer wykorzystuje zewnętrzną bibliotekę opartą na qt - [qhttpengine](https://github.com/nitroshare/qhttpengine). Jej pliki źródłowe są dołączone do projektu<sup>1)</sup> code-snippet-app, nie trzeba więc jej dodatkowo pobierać. Aby ją zainstalować (w folderze projektu, nie globalnie) należy przejść w terminalu do folderu z projektem i wywołać komendy:
+Serwer wykorzystuje zewnętrzną bibliotekę opartą na qt - [QHTTPEngine](https://github.com/nitroshare/qhttpengine). Jej pliki źródłowe są dołączone do projektu<sup>1)</sup> code-snippet-app, nie trzeba więc jej dodatkowo pobierać. Aby ją zainstalować (w folderze projektu, nie globalnie) należy przejść w terminalu do folderu z projektem i wywołać komendy:
 
   
 
@@ -51,7 +50,7 @@ Uruchomienie aplikacji (będąc w katalogu `server/src`):
 
 10. `$ ./server`
 
-  
+<sup>1)</sup> jedyną zmianą w kodzie źródłowym jest zmiana zmiennych `BIN_INSTALL_DIR`, `LIB_INSTALL_DIR`, `INCLUDE_INSTALL_DIR` w pliku CMakeLists.txt na ścieżki w obrębie folderu aplikacji (by nie instalować biblioteki globalnie). Może skutkować brakiem działania dołączonych do biblioteki przykładów (examples).
 
 # Testowanie
 
@@ -73,4 +72,4 @@ oraz zapytania `GET` o dowolnym body. Odpowiedzą na zapytanie typu `GET` jest l
 
   
 
-<sup>1)</sup> jedyną zmianą w kodzie źródłowym jest zmiana zmiennych `BIN_INSTALL_DIR`, `LIB_INSTALL_DIR`, `INCLUDE_INSTALL_DIR` na ścieżki w obrębie folderu aplikacji (by nie instalować biblioteki globalnie). Może skutkować brakiem działania dołączonych do biblioteki przykładów (examples).
+
