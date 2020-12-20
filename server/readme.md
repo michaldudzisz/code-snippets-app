@@ -26,7 +26,7 @@ Serwer wykorzystuje zewnętrzną bibliotekę opartą na qt - [QHTTPEngine](https
 
 5. `$ cd ../../lib`
 
-6. `$ LD_LIBRARY_PATH=LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`\`pwd\` - i o to zautomatyzuję. Na razie trzeba to robić w każdym shellu, w którym chce się wywołać server
+6. `$ LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`\`pwd\` - i o to zautomatyzuję. Na razie trzeba to robić w każdym shellu, w którym chce się wywołać server
 
 7. `$ export LD_LIBRARY_PATH`
 
