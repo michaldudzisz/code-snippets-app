@@ -12,4 +12,11 @@ CTestTestfile.cmake
 Testing
 build
 .*
-server/env
+/server/lib/include
+/server/lib/lib
+/server/lib/qhttpengine/build
+/server/src/server
+/server/src/server.exe
+/server/src/Makefile
+*.o
+

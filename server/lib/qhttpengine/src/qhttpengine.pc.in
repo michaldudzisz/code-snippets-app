@@ -1,0 +1,11 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+libdir=${prefix}/@LIB_INSTALL_DIR@
+includedir=${prefix}/@INCLUDE_INSTALL_DIR@
+
+Name: @PROJECT_NAME@
+Description: @PROJECT_DESCRIPTION@
+URL: @PROJECT_URL@
+Version: @PROJECT_VERSION@
+Requires: Qt5Network
+Cflags: -I${includedir}
+Libs: -L${libdir} -lqhttpengine
