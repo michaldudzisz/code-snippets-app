@@ -1,6 +1,8 @@
 INCLUDEPATH += ../lib/include
 LIBS += -L../lib/lib -lqhttpengine
 
+QMAKE_RPATHDIR += ../lib/lib
+
 HEADERS += apihandler.h 
 HEADERS += snippet.h 
 HEADERS += too_long_content_exception.h 
