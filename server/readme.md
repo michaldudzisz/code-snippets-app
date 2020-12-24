@@ -24,23 +24,15 @@ Serwer wykorzystuje zewnętrzną bibliotekę opartą na qt - [QHTTPEngine](https
 
 4. `$ make install` - nie przejmować się błędem :( naprawię
 
-5. `$ cd ../../lib`
-
-6. `$ LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`\`pwd\` - i o to zautomatyzuję. Na razie trzeba to robić w każdym shellu, w którym chce się wywołać server
-
-7. `$ export LD_LIBRARY_PATH`
-
   
-
 Budowanie projektu. Będąc w katalogu `server`.
 
-  
 
-8. `$ cd src`
+5. `$ cd src`
 
-9. `$ qmake`
+6. `$ qmake`
 
-10. `$ make`
+7. `$ make`
 
   
 
@@ -48,7 +40,7 @@ Uruchomienie aplikacji (będąc w katalogu `server/src`):
 
   
 
-10. `$ ./server`
+8. `$ ./server`
 
 <sup>1)</sup> jedyną zmianą w kodzie źródłowym jest zmiana zmiennych `BIN_INSTALL_DIR`, `LIB_INSTALL_DIR`, `INCLUDE_INSTALL_DIR` w pliku CMakeLists.txt na ścieżki w obrębie folderu aplikacji (by nie instalować biblioteki globalnie). Może skutkować brakiem działania dołączonych do biblioteki przykładów (examples).
 
