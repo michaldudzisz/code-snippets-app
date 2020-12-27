@@ -4,7 +4,7 @@
 TooLongContentException::TooLongContentException(Snippet::Field field,
                                                  int length) : got_(length)
 {
-    message_ = std::string("Too long ") + Snippet::fieldToString(field) +
+    message_ = std::string("Too long ") + Snippet::fieldToString(field).toStdString() +
                std::string(" content! Got ") +
                std::to_string(got_) +
                std::string(" characters, maximum length of this field is ") +
