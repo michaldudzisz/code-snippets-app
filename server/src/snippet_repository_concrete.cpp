@@ -2,14 +2,27 @@
 #include <QSqlQuery>
 #include <QFile>
 #include <QCoreApplication>
+#include <cstdio>
 
 #include "snippet_repository_concrete.h"
 
-SnippetRepositoryConcrete SnippetRepositoryConcrete::instance_;
+QWeakPointer<SnippetRepositoryConcrete> SnippetRepositoryConcrete::instance_;
 
-SnippetRepositoryConcrete &SnippetRepositoryConcrete::getInstance()
+QSharedPointer<SnippetRepositoryConcrete> SnippetRepositoryConcrete::getInstance()
 {
-    return instance_;
+    QSharedPointer<SnippetRepositoryConcrete> ptr_to_return;
+
+    if (instance_.isNull())
+    {
+        ptr_to_return = QSharedPointer<SnippetRepositoryConcrete>(new SnippetRepositoryConcrete());
+        instance_ = QWeakPointer<SnippetRepositoryConcrete>(ptr_to_return);
+    }
+    else
+    {
+        ptr_to_return = instance_.toStrongRef();
+    }
+
+    return ptr_to_return;
 }
 
 void SnippetRepositoryConcrete::setDatabasePath(QString &path)
@@ -18,16 +31,7 @@ void SnippetRepositoryConcrete::setDatabasePath(QString &path)
 }
 
 SnippetRepositoryConcrete::SnippetRepositoryConcrete()
-{/*
-    QFile path_file(serverDirLocationFilePath_);
-    if (!path_file.open(QIODevice::ReadOnly | QIODevice::Text))
-        throw std::exception();
-
-    if (path_file.atEnd())
-        throw std::exception();
-
-    QByteArray path_bytes = path_file.readLine();
-    QString path(path_bytes);*/
+{
     QString app_path = QCoreApplication::applicationDirPath();
     QString database_path = app_path + databasePathFromAppDir_;
     setDatabasePath(database_path);
@@ -35,13 +39,13 @@ SnippetRepositoryConcrete::SnippetRepositoryConcrete()
 
 void SnippetRepositoryConcrete::saveSnippet(Snippet &s)
 {
-    // make a connection
+
     QSqlDatabase db = openedConnection();
-    // get query
+
     QSqlQuery query = prepareInsertQuery(db, s);
-    // execute sql
+
     query.exec();
-    // close connection
+
     db.close();
 }
 
@@ -70,11 +74,6 @@ QSqlQuery SnippetRepositoryConcrete::prepareInsertQuery(
 
     return query;
 }
-/*
-QString SnippetRepositoryConcrete::databaseName()
-{
-    return databaseName_;
-}*/
 
 QDir SnippetRepositoryConcrete::databasePath()
 {
@@ -86,4 +85,3 @@ QVariant SnippetRepositoryConcrete::findSnippetsByTitle(QString &phrase)
     QVariant TODO;
     return TODO;
 }
-

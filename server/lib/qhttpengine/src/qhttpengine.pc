@@ -1,6 +1,6 @@
 prefix=/usr/local
-libdir=${prefix}/lib
-includedir=${prefix}/include
+libdir=${prefix}//home/mdudzisz/zpr/code-snippets-app/server/../../lib
+includedir=${prefix}//home/mdudzisz/zpr/code-snippets-app/server/../../include
 
 Name: QHttpEngine
 Description: Simple and secure HTTP server for Qt applications

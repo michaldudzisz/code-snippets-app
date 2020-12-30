@@ -1,4 +1,5 @@
 #include "snippet_repository_concrete_test.h"
+#include <cstdio>
 
 Snippet SnippetRepositoryConcreteTest::createExampleSnippet()
 {
@@ -16,7 +17,11 @@ void SnippetRepositoryConcreteTest::saveSnippet()
 {
     Snippet snippet = createExampleSnippet();
 
-    SnippetRepositoryConcrete &repository = SnippetRepositoryConcrete::getInstance();
+    QSharedPointer<SnippetRepositoryConcrete> repository
+     = SnippetRepositoryConcrete::getInstance();
 
-    repository.saveSnippet(snippet);
+    if (repository.isNull())
+        puts("jestem nulem");
+    repository -> saveSnippet(snippet);
+
 }

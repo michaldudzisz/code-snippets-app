@@ -4,6 +4,8 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QDir>
+#include <QSharedPointer>
+#include <QWeakPointer>
 
 #include "snippet_repository_interface.h"
 
@@ -12,10 +14,10 @@ class SnippetRepositoryConcrete : public QObject, public SnippetRepositoryInterf
     Q_OBJECT
 
 public:
-    static SnippetRepositoryConcrete &getInstance();
+    static QSharedPointer<SnippetRepositoryConcrete> getInstance();
 
     SnippetRepositoryConcrete(SnippetRepositoryConcrete &other) = delete;
-    
+
     void operator=(const SnippetRepositoryConcrete &other) = delete;
 
     void saveSnippet(Snippet &s) override;
@@ -30,7 +32,7 @@ protected:
     QSqlDatabase openedConnection();
     QSqlQuery prepareInsertQuery(const QSqlDatabase &db, const Snippet &s) const;
 
-    static SnippetRepositoryConcrete instance_;
+    static QWeakPointer<SnippetRepositoryConcrete> instance_;
     const QString databasePathFromAppDir_ = "../database/snippet_db.db";
     //const QString serverDirLocationFile_ = ""
     QDir databasePath_;
