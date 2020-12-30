@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include <QListWidgetItem>
-#include <server/src/snippet.h>
+#include <../server/src/snippet.h>
 #include "addsnippetwindow.h"
 #include <QFileDialog>
 #include <QMessageBox>

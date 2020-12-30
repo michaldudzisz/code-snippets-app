@@ -24,3 +24,4 @@ build
 moc_*
 env
 CMakeLists.txt.user
+build*

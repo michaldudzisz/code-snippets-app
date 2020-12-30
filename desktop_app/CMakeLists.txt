@@ -22,14 +22,14 @@ set(PROJECT_SOURCES
         addsnippetwindow.cpp
         addsnippetwindow.h
         addsnippetwindow.ui
-        ./server/src/snippet.h
-        ./server/src/snippet.cpp
-        ./server/src/too_long_content_exception.h
-        ./server/src/too_long_content_exception.cpp
-        ./server/src/invalid_snippet_json_exception.h
-        ./server/src/invalid_snippet_json_exception.cpp
-        ./server/src/unsupported_language_exception.h
-        ./server/src/unsupported_language_exception.cpp
+        ../server/src/snippet.h
+        ../server/src/snippet.cpp
+        ../server/src/too_long_content_exception.h
+        ../server/src/too_long_content_exception.cpp
+        ../server/src/invalid_snippet_json_exception.h
+        ../server/src/invalid_snippet_json_exception.cpp
+        ../server/src/unsupported_language_exception.h
+        ../server/src/unsupported_language_exception.cpp
 
 )
 
