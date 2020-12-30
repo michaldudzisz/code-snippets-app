@@ -1,5 +1,5 @@
 #include "addsnippetwindow.h"
-#include "ui_addsnippetwindow.h"
+#include <../view/ui_addsnippetwindow.h>
 #include <QFile>
 #include <QTextStream>
 #include <QMessageBox>

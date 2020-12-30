@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(projekt LANGUAGES CXX)
+project(desktop_app LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -15,13 +15,13 @@ find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
-        addsnippetwindow.cpp
-        addsnippetwindow.h
-        addsnippetwindow.ui
+        src/main.cpp
+        src/presenter/mainwindow.cpp
+        src/presenter/mainwindow.h
+        src/view/mainwindow.ui
+        src/presenter/addsnippetwindow.cpp
+        src/presenter/addsnippetwindow.h
+        src/view/addsnippetwindow.ui
         ../server/src/snippet.h
         ../server/src/snippet.cpp
         ../server/src/too_long_content_exception.h

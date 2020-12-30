@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QListWidgetItem>
 #include <../server/src/snippet.h>
-#include <addsnippetwindow.h>
+#include "addsnippetwindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
