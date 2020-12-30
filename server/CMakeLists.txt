@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.5)
 project(code-snippet-app)
 
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../bin)
+
 find_package(Qt5Core    REQUIRED)
 find_package(Qt5Network REQUIRED)
 find_package(Qt5Sql     REQUIRED)
@@ -11,4 +13,4 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 add_subdirectory(src)
-#add_subdirectory(lib/qhttpengine)
+

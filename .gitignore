@@ -23,3 +23,5 @@ build
 /server/src/tests/test
 moc_*
 /server/database/snippet_db.db
+/server/build/*
+/server/bin/*
