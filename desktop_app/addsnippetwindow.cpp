@@ -25,9 +25,7 @@ AddSnippetWindow::~AddSnippetWindow()
 
 void AddSnippetWindow::on_browse_button_clicked()
 {
-    /* do zmiany na windows */
-    QString file_name = QFileDialog::getOpenFileName(this, "open a file", "~");
-    //QFile file("../a.txt");
+    QString file_name = QFileDialog::getOpenFileName(this, "open a file", "");
     QFile file(file_name);
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
