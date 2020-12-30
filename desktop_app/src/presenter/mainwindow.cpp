@@ -32,6 +32,7 @@ void MainWindow::on_list_snippets_itemClicked(/*QListWidgetItem *item*/)
 {
     //qDebug() << ui->list_snippets->currentRow();
     int chosen = ui->list_snippets->currentRow();
+   // qDebug() << chosen;
     ui->view_content->setText(snippets_[chosen].content());
 }
 
@@ -43,6 +44,8 @@ void MainWindow::on_new_button_clicked()
 
 void MainWindow::show_snippets()
 {
+    ui->list_snippets->clear();
+
     for (auto& elem : snippets_) {
         ui->list_snippets->addItem(elem.title());
     }
@@ -50,6 +53,11 @@ void MainWindow::show_snippets()
 
 void MainWindow::on_save_clicked()
 {
+    if (ui->list_snippets->currentRow() == -1) {
+        QMessageBox::warning(this, "Error", "no snippet chosen");
+        return;
+    }
+
     QString file_name = QFileDialog::getSaveFileName(
                 this,
                 tr("save as"),
