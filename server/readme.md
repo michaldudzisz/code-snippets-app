@@ -52,6 +52,8 @@ Serwer nasłuchuje na porcie 8000 pod adresem `app` (`localhost:8000/app`). Przy
 
 * `author` - string (np. `QString`) max 30 znaków
 
+* `title` - string max 100 znaków
+
 * `created` - obiekt klasy `QDateTime` sparsowany na string (`QDateTime::toString()`)
 
 * `lang` - jeden z dozwolonych przez zmienną `Snippet::availableLangs_` napisów identyfikujących język

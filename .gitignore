@@ -12,6 +12,7 @@ CTestTestfile.cmake
 Testing
 build
 .*
+!.gitignore
 /server/lib/include
 /server/lib/lib
 /server/lib/qhttpengine/build
@@ -19,4 +20,5 @@ build
 /server/src/server.exe
 /server/src/Makefile
 *.o
-
+/server/src/tests/test
+moc_*
