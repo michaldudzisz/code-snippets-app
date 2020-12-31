@@ -46,6 +46,8 @@ void ApiHandler::registerSnippet(Snippet &s)
 
 void ApiHandler::handleGetRequest(QHttpEngine::Socket *socket)
 {
+    qInfo() << "received get request";
+
     QJsonArray response; 
 
     for (int i = 0; i < snippets_.length(); ++i)
@@ -60,6 +62,8 @@ void ApiHandler::handleGetRequest(QHttpEngine::Socket *socket)
 
 void ApiHandler::handlePostRequest(QHttpEngine::Socket *socket)
 {
+    qInfo() << "received post request";
+
     QJsonDocument body;
     if (socket->readJson(body))
     {

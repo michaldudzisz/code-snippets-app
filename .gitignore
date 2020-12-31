@@ -1,3 +1,4 @@
+others
 generated_files
 CMakeFiles
 objects
@@ -25,3 +26,4 @@ moc_*
 env
 CMakeLists.txt.user
 build*
+*.save

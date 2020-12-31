@@ -25,7 +25,7 @@ void MainWindow::on_find_button_clicked()
     QString query = ui->form_query->toPlainText();
    // ui->list_snippets->addItem(query);
    show_snippets();
-
+   worker_.get("http://127.0.0.1:8000/app");
 }
 
 void MainWindow::on_list_snippets_itemClicked(/*QListWidgetItem *item*/)

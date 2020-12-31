@@ -11,8 +11,16 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS
+    Widgets
+    Network
+    Core
+    REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS
+    Widgets
+    Network
+    Core
+    REQUIRED)
 
 set(PROJECT_SOURCES
         src/main.cpp
@@ -22,6 +30,8 @@ set(PROJECT_SOURCES
         src/presenter/addsnippetwindow.cpp
         src/presenter/addsnippetwindow.h
         src/view/addsnippetwindow.ui
+        src/communication/worker.cpp
+        src/communication/worker.h
         ../server/src/snippet.h
         ../server/src/snippet.cpp
         ../server/src/too_long_content_exception.h
@@ -43,4 +53,7 @@ else()
     )
 endif()
 
-target_link_libraries(projekt PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(projekt PRIVATE
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Network
+    )

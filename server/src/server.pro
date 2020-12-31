@@ -16,6 +16,8 @@ SOURCES += too_long_content_exception.cpp
 SOURCES += unsupported_language_exception.cpp
 SOURCES += invalid_snippet_json_exception.cpp
 
+CONFIG += console
+
 TEMPLATE += subdirs
 SUBDIRS = tests/
 

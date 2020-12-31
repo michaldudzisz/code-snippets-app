@@ -5,6 +5,7 @@
 #include <QListWidgetItem>
 #include <../server/src/snippet.h>
 #include "addsnippetwindow.h"
+#include <src/communication/worker.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,6 +29,7 @@ private:
     Ui::MainWindow *ui;
     AddSnippetWindow* add_snippet_window;
     QVector<Snippet> snippets_;
+    Worker worker_;
     void show_snippets();
     void data4tests();
 };
