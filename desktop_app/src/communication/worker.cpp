@@ -18,8 +18,9 @@ void Worker::post(QString location, QByteArray data)
     // niedokonczone
     qInfo() << "posting the msg";
     QNetworkRequest request = QNetworkRequest(QUrl(location));
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "json");
+    QNetworkReply* reply = manager_.post(request, data);
+    connect(reply, &QNetworkReply::readyRead, this, &Worker::readyRead);
 }
 
 void Worker::readyRead()

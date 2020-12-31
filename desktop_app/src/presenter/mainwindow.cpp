@@ -6,6 +6,7 @@
 #include <QListWidgetItem>
 #include <QMessageBox>
 #include <QTextStream>
+#include <QJsonDocument>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -26,6 +27,10 @@ void MainWindow::on_find_button_clicked()
    // ui->list_snippets->addItem(query);
    show_snippets();
    worker_.get("http://127.0.0.1:8000/app");
+
+   QJsonObject data = create_single_snippet().toJson();
+
+   worker_.post("http://127.0.0.1:8000/app", QJsonDocument(data).toJson());
 }
 
 void MainWindow::on_list_snippets_itemClicked(/*QListWidgetItem *item*/)
@@ -81,6 +86,16 @@ void MainWindow::on_save_clicked()
     out << snippets_[chosen].content();
     file.flush();
     file.close();
+}
+
+Snippet MainWindow::create_single_snippet() {
+    Snippet snip;
+    snip.setLang("c++");
+    snip.setAuthor("ja");
+    QString content = QString::number(5) + ", essa";
+    snip.setContent(content);
+    snip.setTitle("ok");
+    return snip;
 }
 
 void MainWindow::data4tests() {

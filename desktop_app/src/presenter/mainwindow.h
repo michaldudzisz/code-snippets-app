@@ -32,5 +32,6 @@ private:
     Worker worker_;
     void show_snippets();
     void data4tests();
+    Snippet create_single_snippet();
 };
 #endif // MAINWINDOW_H
