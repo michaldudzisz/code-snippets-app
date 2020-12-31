@@ -1,8 +1,5 @@
 include_directories("../lib/include")
 
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 set(HEADERS
     apihandler.h
     snippet.h
@@ -22,6 +19,15 @@ set(SOURCES
     invalid_snippet_json_exception.cpp
 )
 
+set(SOURCES_TO_TEST 
+    ${CMAKE_CURRENT_LIST_DIR}/apihandler.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/snippet.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/snippet_repository_concrete.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/too_long_content_exception.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/unsupported_language_exception.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/invalid_snippet_json_exception.cpp
+)
+
 get_filename_component(ABSOLUTE_SERVER_PATH ${CMAKE_SOURCE_DIR} ABSOLUTE)
 
 set(CMAKE_INSTALL_RPATH ${ABSOLUTE_SERVER_PATH}/lib/lib)
@@ -39,4 +45,6 @@ target_link_libraries(server
     Qt5::Sql 
     Qt5::Test
 )
+
+add_subdirectory(tests)
 
