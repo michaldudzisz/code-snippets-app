@@ -7,6 +7,7 @@
 #include <QJsonObject>
 #include <string>
 #include <map>
+#include <QVariant>
 
 class Snippet : public QObject
 {
@@ -35,6 +36,8 @@ public:
     static Snippet fromJson(QJsonObject &obj);
     static Snippet fromJson(QJsonObject &&obj);
 
+    QVariant toVariant() const;
+
     void setAuthor(QString author);
     void setTitle(QString title);
     void setCreated(QDateTime created);
@@ -46,6 +49,8 @@ public:
     QDateTime created() const;
     QString lang() const;
     QString content() const;
+
+    static QStringList availableLangs();
 
     static QString fieldToString(Field field);
     static int fieldToItsMaxLength(Field field);
@@ -68,5 +73,7 @@ private:
 
     static const QHash<Field, int> fieldToItsMaxLengthMap;
 };
+
+Q_DECLARE_METATYPE(Snippet);
 
 #endif

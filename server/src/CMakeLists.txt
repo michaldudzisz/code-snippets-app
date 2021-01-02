@@ -7,6 +7,7 @@ set(HEADERS
     too_long_content_exception.h
     unsupported_language_exception.h
     invalid_snippet_json_exception.h
+    snippet_search_pattern.h
 )
 
 set(SOURCES
@@ -17,6 +18,7 @@ set(SOURCES
     too_long_content_exception.cpp
     unsupported_language_exception.cpp
     invalid_snippet_json_exception.cpp
+    snippet_search_pattern.cpp
 )
 
 set(SOURCES_TO_TEST 
@@ -26,6 +28,7 @@ set(SOURCES_TO_TEST
     ${CMAKE_CURRENT_LIST_DIR}/too_long_content_exception.cpp
     ${CMAKE_CURRENT_LIST_DIR}/unsupported_language_exception.cpp
     ${CMAKE_CURRENT_LIST_DIR}/invalid_snippet_json_exception.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/snippet_search_pattern.cpp
 )
 
 get_filename_component(ABSOLUTE_SERVER_PATH ${CMAKE_SOURCE_DIR} ABSOLUTE)

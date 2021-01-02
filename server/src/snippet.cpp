@@ -165,6 +165,9 @@ QStringList Snippet::availableLangs_ = {"c++", "python", "javascript"};
 
 Snippet &Snippet::operator=(const Snippet &s)
 {
+    if (&s == this)
+        return *this;
+    
     setAuthor(s.author());
     setTitle(s.title());
     setCreated(s.created());
@@ -178,4 +181,16 @@ bool Snippet::operator==(const Snippet &s)
 {
     bool result = s.author() == author() && s.title() == title() && s.created() == created() && s.lang() == lang() && s.content() == content();
     return result;
+}
+
+QVariant Snippet::toVariant() const
+{
+    QVariant snippVariant;
+    snippVariant.setValue(*this);
+    return snippVariant;
+}
+
+QStringList Snippet::availableLangs()
+{
+    return availableLangs_;
 }

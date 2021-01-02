@@ -9,13 +9,13 @@ class SnippetRepositoryConcreteTest : public QObject
     Q_OBJECT
 
 private:
-
     Snippet createExampleSnippet();
 
 private slots:
 
     void saveSnippet();
-
+    void pullSnippets();
+    void findSnippetsByFields();
 };
 
 #endif
