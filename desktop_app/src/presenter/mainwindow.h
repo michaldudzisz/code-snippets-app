@@ -20,18 +20,16 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    MainWindow* getInstance();
 
 private slots:
     void on_find_button_clicked();
     void on_list_snippets_itemClicked(/*QListWidgetItem *item*/);
     void on_new_button_clicked(); 
     void on_save_clicked();
-    void handle_data();
+    void handle_data(QByteArray& byte_array);
 
 
 private:
-    MainWindow* main_window;
     Ui::MainWindow *ui;
     AddSnippetWindow* add_snippet_window;
     QVector<Snippet> snippets_;

@@ -32,8 +32,10 @@ void Worker::post(Snippet& snip)
 void Worker::readyRead()
 {
     qInfo() << "got answer";
+
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
-    emit data_received();
+    QByteArray byte_array = reply->readAll();
+    emit data_received(byte_array);
 
     if (reply) qInfo() << reply->readAll();
     else qInfo() << "no reply??";

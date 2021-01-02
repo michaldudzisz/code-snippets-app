@@ -20,7 +20,7 @@ public:
     explicit Worker(QObject *parent = nullptr);
 
 signals:
-    void data_received();
+    void data_received(QByteArray& byte_array);
 
 public slots:
     void get(QString& title, QString& lang);
@@ -32,7 +32,6 @@ private slots:
 private:
     QString const LOCATION_ = "http://127.0.0.1:8000/app";
     QNetworkAccessManager manager_;
-    //MainWindow *main_window_;
 };
 
 #endif // WORKER_H

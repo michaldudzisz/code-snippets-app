@@ -7,13 +7,15 @@
 #include <QMessageBox>
 #include <QTextStream>
 #include <QJsonDocument>
+#include <QJsonArray>
+#include <exception>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    data4tests();
+    //data4tests();
     connect(&worker_, &Worker::data_received, this, &MainWindow::handle_data);
 }
 
@@ -28,6 +30,7 @@ void MainWindow::on_find_button_clicked()
    // ui->list_snippets->addItem(query);
    show_snippets();
    //worker_.get("http://127.0.0.1:8000/app");
+
    QString title;
    QString lang;
    worker_.get(title, lang);
@@ -35,8 +38,10 @@ void MainWindow::on_find_button_clicked()
    QJsonObject data = create_single_snippet().toJson();
 
   // worker_.post("http://127.0.0.1:8000/app", QJsonDocument(data).toJson());
+
    Snippet snip = create_single_snippet();
    worker_.post(snip);
+   qDebug() << "size: " + QString::number(snippets_.size());
 }
 
 void MainWindow::on_list_snippets_itemClicked(/*QListWidgetItem *item*/)
@@ -94,8 +99,26 @@ void MainWindow::on_save_clicked()
     file.close();
 }
 
-void MainWindow::handle_data()
+void MainWindow::handle_data(QByteArray& byte_array)
 {
+    QJsonDocument json_document = QJsonDocument::fromJson(byte_array);
+    QJsonArray json_array = json_document.array();
+
+    try {
+        snippets_.clear();
+        for (auto json : json_array) {
+            Snippet snip = Snippet::fromJson(json.toObject());
+            snippets_.push_back(snip);
+            qInfo() << json.toString();
+        }
+        show_snippets();
+    } catch(std::exception& e) {
+        QMessageBox::information(this, "Error", e.what());
+    }
+
+    //Snippet snip = Snippet::fromJson(json_object);
+   // qInfo() << json_document.isArray();
+
     qInfo() << "komnukiacja miedzy klasami powiodla sie";
 }
 
