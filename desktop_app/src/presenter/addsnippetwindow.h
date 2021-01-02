@@ -2,6 +2,8 @@
 #define ADDSNIPPETWINDOW_H
 
 #include <QDialog>
+#include "../communication/worker.h"
+
 
 namespace Ui {
 class AddSnippetWindow;
@@ -21,6 +23,7 @@ private slots:
 
 private:
     Ui::AddSnippetWindow *ui;
+    Worker worker_;
 };
 
 #endif // ADDSNIPPETWINDOW_H

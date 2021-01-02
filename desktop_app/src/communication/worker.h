@@ -8,6 +8,10 @@
 #include <QNetworkRequest>
 #include <QString>
 #include <QByteArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <../server/src/snippet.h>
+
 
 class Worker : public QObject
 {
@@ -16,17 +20,19 @@ public:
     explicit Worker(QObject *parent = nullptr);
 
 signals:
+    void data_received();
 
 public slots:
-    void get(QString query);
-    void post(QString location, QByteArray data);
+    void get(QString& title, QString& lang);
+    void post(Snippet& snip);
 
 private slots:
     void readyRead();
 
 private:
-    QString const location_ = "127.0.0.1:8000/app";
+    QString const LOCATION_ = "http://127.0.0.1:8000/app";
     QNetworkAccessManager manager_;
+    //MainWindow *main_window_;
 };
 
 #endif // WORKER_H

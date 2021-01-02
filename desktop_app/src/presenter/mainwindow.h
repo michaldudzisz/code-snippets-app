@@ -1,11 +1,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QWidget>
 #include <QMainWindow>
 #include <QListWidgetItem>
 #include <../server/src/snippet.h>
 #include "addsnippetwindow.h"
 #include <src/communication/worker.h>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -18,14 +20,18 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    MainWindow* getInstance();
 
 private slots:
     void on_find_button_clicked();
     void on_list_snippets_itemClicked(/*QListWidgetItem *item*/);
     void on_new_button_clicked(); 
     void on_save_clicked();
+    void handle_data();
+
 
 private:
+    MainWindow* main_window;
     Ui::MainWindow *ui;
     AddSnippetWindow* add_snippet_window;
     QVector<Snippet> snippets_;

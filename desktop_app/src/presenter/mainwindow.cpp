@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     data4tests();
+    connect(&worker_, &Worker::data_received, this, &MainWindow::handle_data);
 }
 
 MainWindow::~MainWindow()
@@ -26,11 +27,16 @@ void MainWindow::on_find_button_clicked()
     QString query = ui->form_query->toPlainText();
    // ui->list_snippets->addItem(query);
    show_snippets();
-   worker_.get("http://127.0.0.1:8000/app");
+   //worker_.get("http://127.0.0.1:8000/app");
+   QString title;
+   QString lang;
+   worker_.get(title, lang);
 
    QJsonObject data = create_single_snippet().toJson();
 
-   worker_.post("http://127.0.0.1:8000/app", QJsonDocument(data).toJson());
+  // worker_.post("http://127.0.0.1:8000/app", QJsonDocument(data).toJson());
+   Snippet snip = create_single_snippet();
+   worker_.post(snip);
 }
 
 void MainWindow::on_list_snippets_itemClicked(/*QListWidgetItem *item*/)
@@ -86,6 +92,11 @@ void MainWindow::on_save_clicked()
     out << snippets_[chosen].content();
     file.flush();
     file.close();
+}
+
+void MainWindow::handle_data()
+{
+    qInfo() << "komnukiacja miedzy klasami powiodla sie";
 }
 
 Snippet MainWindow::create_single_snippet() {

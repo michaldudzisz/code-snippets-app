@@ -10,6 +10,7 @@
 #include <../server/src/unsupported_language_exception.h>
 #include <QDateTime>
 #include <QJsonObject>
+#include "../communication/worker.h"
 
 AddSnippetWindow::AddSnippetWindow(QWidget *parent) :
     QDialog(parent),
@@ -44,28 +45,29 @@ void AddSnippetWindow::on_add_button_clicked()
 {
     QString snippet_content = ui->text_snippet->toPlainText();
     QString snippet_title = ui->text_title->toPlainText();
+
+    /*
     if (snippet_content.isEmpty()) {
         QMessageBox::warning(this, "title", "There is no text");
     }
     else if (snippet_title.isEmpty()) {
         QMessageBox::warning(this, "title", "There is no title");
-    }
-    else {
-        try {
-            Snippet new_snippet(
-                        ui->text_author->toPlainText(),
-                        ui->text_title->toPlainText(),
-                        ui->lang_box->currentText(),
-                        ui->text_snippet->toPlainText()
-                        );
-            QJsonObject snippet_json = new_snippet.toJson();
+    } */
 
-        } catch(TooLongContentException& e) {
-            QMessageBox::warning(this, "title", "Text is too long");
-        } catch(UnsupportedLanguageException& e) {
-            QMessageBox::warning(this, "title", "Such language is not supported");
-        }
+    try {
+        Snippet new_snippet(
+                    ui->text_author->toPlainText(),
+                    ui->text_title->toPlainText(),
+                    ui->lang_box->currentText(),
+                    ui->text_snippet->toPlainText()
+                    );
 
-        qDebug() << "ok";
+        worker_.post(new_snippet);
+
+    } catch(TooLongContentException& e) {
+        QMessageBox::warning(this, "title", "Text is too long");
+    } catch(UnsupportedLanguageException& e) {
+        QMessageBox::warning(this, "title", "Such language is not supported");
     }
+
 }
