@@ -8,14 +8,16 @@ class SnippetRepositoryConcreteTest : public QObject
 {
     Q_OBJECT
 
+private slots:
+    void initTestCase();
+    void saveSnippet();
+    void pullSnippets();
+    void pullSnippetsByAuthorAndTitle();
+
 private:
     Snippet createExampleSnippet();
 
-private slots:
-
-    void saveSnippet();
-    void pullSnippets();
-    void findSnippetsByFields();
+    QSharedPointer<SnippetRepositoryInterface> repository_;
 };
 
 #endif

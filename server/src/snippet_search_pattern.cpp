@@ -3,6 +3,19 @@
 #include "too_long_content_exception.h"
 #include "unsupported_language_exception.h"
 
+const QString SnippetSearchPattern::SQLITE_SEQ_CHAR = "%";
+
+SnippetSearchPattern::SnippetSearchPattern() {}
+
+SnippetSearchPattern::SnippetSearchPattern(const SnippetSearchPattern &other)
+{
+    setAuthorSubsequence(other.authorSubsequence());
+    setTitleSubsequence(other.titleSubsequence());
+    setCreatedFrom(other.createdFrom());
+    setCreatedTo(other.createdTo());
+    setLang(other.lang());
+}
+
 SnippetSearchPattern &SnippetSearchPattern::operator=(const SnippetSearchPattern &other)
 {
     if (&other == this)
@@ -46,7 +59,7 @@ void SnippetSearchPattern::setLang(const QString &lang)
     if (lang.length() > Snippet::MAX_LANG_LEN)
         throw TooLongContentException(Snippet::Field::LANG, lang.length());
 
-    if (!Snippet::availableLangs().contains(lang))
+    if (!Snippet::availableLangs().contains(lang) && !lang.isEmpty())
         throw UnsupportedLanguageException(lang.toUtf8().constData()); // moze nie dzialac na windowsie
 
     lang_ = lang;
@@ -75,4 +88,30 @@ QDateTime SnippetSearchPattern::createdTo() const
 QString SnippetSearchPattern::lang() const
 {
     return lang_;
+}
+
+QString SnippetSearchPattern::authorSQLiteSubsequence() const
+{
+    return QString(SQLITE_SEQ_CHAR + authorSubsequence() + SQLITE_SEQ_CHAR);
+}
+
+QString SnippetSearchPattern::titleSQLiteSubsequence() const
+{
+    return QString(SQLITE_SEQ_CHAR + titleSubsequence() + SQLITE_SEQ_CHAR);
+}
+
+QString SnippetSearchPattern::languageSQLite() const
+{
+    if (lang().isEmpty())
+        return QString(SQLITE_SEQ_CHAR);
+    else
+        return lang();
+}
+
+bool SnippetSearchPattern::isEmpty() const
+{
+    bool result;
+    result = authorSubsequence().isEmpty() && titleSubsequence().isEmpty() && lang().isEmpty();
+    result = result && createdFrom().isNull() && createdTo().isNull();
+    return result;
 }

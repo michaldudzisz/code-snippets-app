@@ -2,6 +2,11 @@
 #include <cstdio>
 #include <QDebug>
 
+void SnippetRepositoryConcreteTest::initTestCase()
+{
+    repository_ = SnippetRepositoryConcrete::getInstance();
+}
+
 Snippet SnippetRepositoryConcreteTest::createExampleSnippet()
 {
     Snippet s;
@@ -18,20 +23,14 @@ void SnippetRepositoryConcreteTest::saveSnippet()
 {
     Snippet snippet = createExampleSnippet();
 
-    QSharedPointer<SnippetRepositoryConcrete> repository =
-        SnippetRepositoryConcrete::getInstance();
-
-    repository->saveSnippet(snippet);
+    repository_->saveSnippet(snippet);
 }
 
 void SnippetRepositoryConcreteTest::pullSnippets()
 {
     Snippet snippet = createExampleSnippet();
 
-    QSharedPointer<SnippetRepositoryInterface> repository =
-        SnippetRepositoryConcrete::getInstance();
-
-    QList<QVariant> snippets = repository->pullSnippets();
+    QList<QVariant> snippets = repository_->pullSnippets();
 
     QJsonArray json_arr;
 
@@ -39,27 +38,20 @@ void SnippetRepositoryConcreteTest::pullSnippets()
     {
         json_arr.append(snipp.value<Snippet>().toJson());
     }
-
-    QJsonDocument doc(json_arr);
-
-    QString to_print(doc.toJson(QJsonDocument::Compact));
-    //qDebug() << to_print;
 }
 
-void SnippetRepositoryConcreteTest::findSnippetsByFields()
+void SnippetRepositoryConcreteTest::pullSnippetsByAuthorAndTitle()
 {
-    QSharedPointer<SnippetRepositoryInterface> repository =
-        SnippetRepositoryConcrete::getInstance();
     
     SnippetSearchPattern pattern;
     pattern.setLang("c++");
-    QList<QVariant> snippets = repository->findSnippetsByFields(pattern);
+    QList<QVariant> snippets = repository_->pullSnippets(pattern);
 
     pattern.setAuthorSubsequence("rnam"); // use rnam e
-    snippets = repository->findSnippetsByFields(pattern);
+    snippets = repository_->pullSnippets(pattern);
 
     pattern.setTitleSubsequence("some"); // some title
-    snippets = repository->findSnippetsByFields(pattern);
+    snippets = repository_->pullSnippets(pattern);
 
     QJsonArray json_arr;
 
@@ -67,9 +59,4 @@ void SnippetRepositoryConcreteTest::findSnippetsByFields()
     {
         json_arr.append(snipp.value<Snippet>().toJson());
     }
-
-    QJsonDocument doc(json_arr);
-
-    QString to_print(doc.toJson(QJsonDocument::Compact));
-    qDebug() << to_print;
 }

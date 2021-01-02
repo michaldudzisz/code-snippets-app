@@ -11,10 +11,16 @@ struct SnippetSearchPattern : QObject
 
 public:
 
-    SnippetSearchPattern() = default;
-    SnippetSearchPattern(const SnippetSearchPattern & other) = default;
+    SnippetSearchPattern();
+    SnippetSearchPattern(const SnippetSearchPattern & other);
     SnippetSearchPattern &operator=(const SnippetSearchPattern &);
     ~SnippetSearchPattern() = default;
+
+    QString authorSQLiteSubsequence() const;
+    QString titleSQLiteSubsequence() const;
+    QString languageSQLite() const;
+
+    bool isEmpty() const;
 
     void setAuthorSubsequence(const QString &author);
     void setTitleSubsequence(const QString &title);
@@ -29,11 +35,14 @@ public:
     QString lang() const;
 
 private:
+
     QString authorSubsequence_;
     QString titleSubsequence_;
     QDateTime createdFrom_;
     QDateTime createdTo_;
     QString lang_;
+
+    static const QString SQLITE_SEQ_CHAR;
 };
 
 #endif

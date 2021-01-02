@@ -4,8 +4,11 @@
 #include <QCoreApplication>
 #include <QList>
 #include <QDebug>
+#include <QSqlError>
 
 #include "snippet_repository_concrete.h"
+#include "query_not_performed_exception.h"
+#include "repository_not_initialized_exception.h"
 
 QWeakPointer<SnippetRepositoryConcrete> SnippetRepositoryConcrete::instance_;
 
@@ -27,53 +30,45 @@ QSharedPointer<SnippetRepositoryConcrete> SnippetRepositoryConcrete::getInstance
     return ptr_to_return;
 }
 
+SnippetRepositoryConcrete::SnippetRepositoryConcrete()
+{
+    QString app_path = QCoreApplication::applicationDirPath();
+    QString database_path = app_path + databasePathFromAppDir_;
+    setDatabasePath(database_path);
+
+    database_ = QSqlDatabase::addDatabase(DATABASE_TYPE);
+    database_.setDatabaseName(databasePath().path());
+}
+
+SnippetRepositoryConcrete::~SnippetRepositoryConcrete()
+{
+    QSqlDatabase::removeDatabase(database().databaseName());
+}
+
 void SnippetRepositoryConcrete::setDatabasePath(QString &path)
 {
     databasePath_ = path;
 }
 
-SnippetRepositoryConcrete::SnippetRepositoryConcrete()
+void SnippetRepositoryConcrete::saveSnippet(Snippet &snipp)
 {
-    QString app_path = QCoreApplication::applicationDirPath();
-    QString database_path = app_path + databasePathFromAppDir_;
-
-    setDatabasePath(database_path);
+    openDatabase();
+    QSqlQuery query = prepareInsertQuery(snipp);
+    executeQuery(query);
+    closeDatabase();
 }
 
-void SnippetRepositoryConcrete::saveSnippet(Snippet &s)
+QSqlQuery SnippetRepositoryConcrete::prepareInsertQuery(const Snippet &snipp)
 {
+    QSqlQuery query(database());
 
-    QSqlDatabase db = openedConnection();
+    query.prepare(INSERT_QUERY);
 
-    QSqlQuery query = prepareInsertQuery(db, s);
-
-    query.exec();
-
-    db.close();
-}
-
-QSqlDatabase SnippetRepositoryConcrete::openedConnection()
-{
-    QSqlDatabase database = QSqlDatabase::addDatabase("QSQLITE");
-    database.setDatabaseName(databasePath().path());
-    database.open();
-    return database;
-}
-
-QSqlQuery SnippetRepositoryConcrete::prepareInsertQuery(
-    const QSqlDatabase &database,
-    const Snippet &s) const
-{
-    QSqlQuery query(database);
-
-    query.prepare("INSERT INTO snippets (author, title, created, language, content) "
-                  "VALUES (:author, :title, :created, :language, :content)");
-
-    query.bindValue(":author", s.author());
-    query.bindValue(":title", s.title());
-    query.bindValue(":created", s.created().toString());
-    query.bindValue(":language", s.lang());
-    query.bindValue(":content", s.content());
+    query.bindValue(BIND_AUTHOR, snipp.author());
+    query.bindValue(BIND_TITLE, snipp.title());
+    query.bindValue(BIND_CREATED, snipp.created().toString());
+    query.bindValue(BIND_LANGUAGE, snipp.lang());
+    query.bindValue(BIND_CONTENT, snipp.content());
 
     return query;
 }
@@ -83,145 +78,122 @@ QDir SnippetRepositoryConcrete::databasePath()
     return databasePath_;
 }
 
-QList<QVariant> SnippetRepositoryConcrete::findSnippetsByTitle(const QString &phrase)
+QSqlQuery SnippetRepositoryConcrete::preparePullLastQuery()
 {
-    QList<QVariant> snippets;
+    QSqlQuery query(database());
+    query.prepare(PULL_QUERY);
+    return query;
+}
 
-    QSqlDatabase database = openedConnection();
+QVariant SnippetRepositoryConcrete::mapQueryRowToSnippet(const QSqlQuery &query)
+{
+    QString author, title, lang, content;
+    QDateTime created;
 
-    QSqlQuery query(SELECT_BY_TITLE_QUERY, database);
-    query.bindValue(TITLE_SUBSEQUENCE, phrase);
-
-    query.exec();
-
-    query.first();
-    do
+    if (query.isValid())
     {
-        // tutaj try catch
-        Snippet snipp = mapQueryRowToSnippet(query);
-        // i jeśli się nie da, to pusty snippet idzie do qvariant
-        // albo nic idzie do qvariant
-        // zaleznie od tego, jak dziala qvariant
+        author = query.value(0).toString();
+        title = query.value(1).toString();
+        created = QDateTime::fromString(query.value(2).toString());
+        lang = query.value(3).toString();
+        content = query.value(4).toString();
+    }
 
-        snippets.append(snipp.toVariant());
+    QVariant result;
+    try
+    {
+        Snippet snipp(author, title, created, lang, content);
+        result.setValue(snipp);
+    }
+    catch (std::exception &ignored)
+    {
+        // may be ignored, because snippet goes to variant and must be checked later
+    }
 
-    } while (query.next());
-
-    database.close();
-
-    return snippets;
+    
+    return result;
 }
 
 QList<QVariant> SnippetRepositoryConcrete::pullSnippets()
 {
-    QList<QVariant> snippets;
-
-    QSqlDatabase database = openedConnection();
-
-    QSqlQuery query(PULL_QUERY, database);
-
-    query.exec();
-
-    query.first();
-    do
-    {
-        // tutaj try catch
-        Snippet snipp = mapQueryRowToSnippet(query);
-        // i jeśli się nie da, to pusty snippet idzie do qvariant
-        // albo nic idzie do qvariant
-        // zaleznie od tego, jak dziala qvariant
-
-        snippets.append(snipp.toVariant());
-
-    } while (query.next());
-
-    database.close();
-
-    return snippets;
+    SnippetSearchPattern match_pattern;
+    return pullSnippets(match_pattern);
 }
 
-Snippet SnippetRepositoryConcrete::mapQueryRowToSnippet(const QSqlQuery &query)
-{
-    QString author = query.value(0).toString();
-    QString title = query.value(1).toString();
-    QDateTime created = QDateTime::fromString(query.value(2).toString());
-    QString lang = query.value(3).toString();
-    QString content = query.value(4).toString();
-
-    Snippet snipp(author, title, created, lang, content);
-    return snipp;
-}
-
-QList<QVariant> SnippetRepositoryConcrete::findSnippetsByLanguage(const QString &lang)
+QList<QVariant> SnippetRepositoryConcrete::pullSnippets(SnippetSearchPattern &pattern)
 {
     QList<QVariant> snippets;
+    QSqlQuery query;
 
-    QSqlDatabase database = openedConnection();
+    openDatabase();
 
-    QSqlQuery query(SELECT_BY_LANG_QUERY, database);
-    query.bindValue(SPECIFIED_LANG, lang);
+    if (pattern.isEmpty())
+        query = preparePullLastQuery();
+    else
+        query = prepareSelectByFieldsQuery(pattern);
 
-    query.exec();
+    executeQuery(query);
 
-    query.first();
-    do
-    {
-        // tutaj try catch
-        Snippet snipp = mapQueryRowToSnippet(query);
-        // i jeśli się nie da, to pusty snippet idzie do qvariant
-        // albo nic idzie do qvariant
-        // zaleznie od tego, jak dziala qvariant
+    iterateOverQueryResults(query, snippets, [this, query](QSqlQuery &q, QList<QVariant> &snippets) {
+        QVariant snipp = mapQueryRowToSnippet(query);
+        snippets.append(snipp);
+    });
 
-        snippets.append(snipp.toVariant());
-
-    } while (query.next());
-
-    database.close();
-
-    return snippets;
-}
-
-QList<QVariant> SnippetRepositoryConcrete::findSnippetsByFields(
-    const SnippetSearchPattern &pattern)
-{
-    QList<QVariant> snippets;
-
-    QSqlDatabase database = openedConnection();
-
-    QSqlQuery query = prepareSelectByFieldsQuery(database, pattern);
-
-    query.exec();
-
-    query.first();
-    do
-    {
-        // tutaj try catch
-        Snippet snipp = mapQueryRowToSnippet(query);
-        // i jeśli się nie da, to pusty snippet idzie do qvariant
-        // albo nic idzie do qvariant
-        // zaleznie od tego, jak dziala qvariant
-
-        snippets.append(snipp.toVariant());
-
-    } while (query.next());
-
-    database.close();
+    closeDatabase();
 
     return snippets;
 }
 
 QSqlQuery SnippetRepositoryConcrete::prepareSelectByFieldsQuery(
-    const QSqlDatabase &database,
-    const SnippetSearchPattern &pattern) const
+    const SnippetSearchPattern &pattern)
 {
-    QSqlQuery query(SELECT_BY_FIELDS, database);
+    QSqlQuery query(database());
+    query.prepare(SELECT_BY_FIELDS);
+    query.bindValue(BIND_AUTHOR_SUBSEQUENCE, pattern.authorSQLiteSubsequence());
+    query.bindValue(BIND_TITLE_SUBSEQUENCE, pattern.titleSQLiteSubsequence());
+    query.bindValue(BIND_SPECIFIED_LANG, pattern.languageSQLite());
 
-    query.bindValue(":author_subsequence", QString("rname"));
-    query.bindValue(TITLE_SUBSEQUENCE, "some");
-    query.bindValue(SPECIFIED_LANG, "c++");
-
-    qDebug() << query.lastQuery();
-    qDebug() << "xd";
-    qDebug() << query.boundValue(":author_subsequence");
     return query;
+}
+
+void SnippetRepositoryConcrete::openDatabase()
+{
+    if (!database().open())
+        throw QueryNotPerformedException("Unable to open connection with database.");
+}
+
+void SnippetRepositoryConcrete::closeDatabase()
+{
+    database().close();
+}
+
+QSqlDatabase SnippetRepositoryConcrete::database()
+{
+    return database_;
+}
+
+void SnippetRepositoryConcrete::executeQuery(QSqlQuery query)
+{
+    if (!query.exec())
+    {
+        closeDatabase();
+        QSqlError err = query.lastError();
+        throw QueryNotPerformedException(errorToCString(err));
+    }
+}
+
+const char *SnippetRepositoryConcrete::errorToCString(QSqlError &err)
+{
+    return err.text().toLocal8Bit().data();
+}
+
+template <typename Func>
+void SnippetRepositoryConcrete::iterateOverQueryResults(
+    QSqlQuery &query, QList<QVariant> &snippets, Func func)
+{
+    query.first();
+    do
+    {
+        func(query, snippets);
+    } while (query.next());
 }
