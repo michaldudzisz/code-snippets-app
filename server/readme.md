@@ -27,28 +27,31 @@ Serwer wykorzystuje zewnętrzną bibliotekę opartą na qt - [QHTTPEngine](https
 
 4. `$ make install`
 
+Tworzenie bazy danych:
+
+5. `$ ./unix-setup.sh`
   
 Budowanie projektu. Będąc w katalogu `server`.
 
 
-5. `$ mkdir build && cd build`
+6. `$ mkdir build && cd build`
 
-6. `$ cmake ..`
+7. `$ cmake ..`
 
-7. `$ make`
+8. `$ make`
 
   
 
 Uruchomienie aplikacji (będąc w katalogu `server`):
 
 
-8. `$ cd bin`
-9. `$ ./server`
+9. `$ cd bin`
+10. `$ ./server`
 
 Uruchomienie testów jednostkowych:
 
-10. `$ cd bin`
-11. `$ ./test`
+11. `$ cd bin`
+12. `$ ./test`
 
 <sup>1)</sup> jedyną zmianą w kodzie źródłowym jest zmiana zmiennych `BIN_INSTALL_DIR`, `LIB_INSTALL_DIR`, `INCLUDE_INSTALL_DIR` w pliku CMakeLists.txt na ścieżki w obrębie folderu aplikacji (by nie instalować biblioteki globalnie). Może skutkować brakiem działania dołączonych do biblioteki przykładów (examples).
 
