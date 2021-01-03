@@ -13,8 +13,8 @@ class SnippetRepositoryInterface
 {
 public:
     virtual void saveSnippet(Snippet &s) = 0;
-    virtual QList<QVariant> pullSnippets() = 0;
-    virtual QList<QVariant> pullSnippets(SnippetSearchPattern &pattern) = 0;
+    virtual QList<Snippet> pullSnippets() = 0;
+    virtual QList<Snippet> pullSnippets(SnippetSearchPattern &pattern) = 0;
 };
 
 #endif

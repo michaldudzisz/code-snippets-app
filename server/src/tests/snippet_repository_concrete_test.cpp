@@ -30,33 +30,18 @@ void SnippetRepositoryConcreteTest::pullSnippets()
 {
     Snippet snippet = createExampleSnippet();
 
-    QList<QVariant> snippets = repository_->pullSnippets();
-
-    QJsonArray json_arr;
-
-    for (auto snipp : snippets)
-    {
-        json_arr.append(snipp.value<Snippet>().toJson());
-    }
+    QList<Snippet> snippets = repository_->pullSnippets();
 }
 
 void SnippetRepositoryConcreteTest::pullSnippetsByAuthorAndTitle()
 {
-    
     SnippetSearchPattern pattern;
     pattern.setLang("c++");
-    QList<QVariant> snippets = repository_->pullSnippets(pattern);
+    QList<Snippet> snippets = repository_->pullSnippets(pattern);
 
     pattern.setAuthorSubsequence("rnam"); // use rnam e
     snippets = repository_->pullSnippets(pattern);
 
     pattern.setTitleSubsequence("some"); // some title
     snippets = repository_->pullSnippets(pattern);
-
-    QJsonArray json_arr;
-
-    for (auto snipp : snippets)
-    {
-        json_arr.append(snipp.value<Snippet>().toJson());
-    }
 }

@@ -23,11 +23,15 @@ public:
     static QSharedPointer<SnippetRepositoryConcrete> getInstance();
 
     void saveSnippet(Snippet &s) override;
-    QList<QVariant> pullSnippets() override;
-    QList<QVariant> pullSnippets(SnippetSearchPattern &pattern) override;
+    QList<Snippet> pullSnippets() override;
+    QList<Snippet> pullSnippets(SnippetSearchPattern &pattern) override;
 
 protected:
     SnippetRepositoryConcrete();
+
+    QList<QVariant> pullFromDatabase(SnippetSearchPattern &pattern);
+
+    QList<Snippet> parseSnippetsFromVariantList(QList<QVariant> list);
 
     void setDatabasePath(QString &path);
     QSqlDatabase database();
@@ -67,17 +71,20 @@ protected:
         "SELECT author, title, created, language, content, id FROM snippets "
         "ORDER BY id DESC "
         "LIMIT 5;";
-
+    
     const QString SELECT_BY_FIELDS =
         "SELECT author, title, created, language, content, id FROM snippets "
         "WHERE "
         "author LIKE :author_subsequence AND "
         "title LIKE :title_subsequence AND "
-        "language LIKE :specified_lang "
+        "language LIKE :specified_lang AND "
+        "created BETWEEN :created_from AND :created_to "
         "ORDER BY id DESC "
-        "LIMIT 5;";
+        "LIMIT 5;"; 
     const QString BIND_AUTHOR_SUBSEQUENCE = ":author_subsequence";
     const QString BIND_TITLE_SUBSEQUENCE = ":title_subsequence";
+    const QString BIND_CREATED_FROM = ":created_from";
+    const QString BIND_CREATED_TO = ":created_to";
     const QString BIND_SPECIFIED_LANG = ":specified_lang";
 };
 

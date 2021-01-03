@@ -5,6 +5,7 @@
 #include <QList>
 #include <QDebug>
 #include <QSqlError>
+#include <QSqlRecord>
 
 #include "snippet_repository_concrete.h"
 #include "query_not_performed_exception.h"
@@ -43,6 +44,33 @@ SnippetRepositoryConcrete::SnippetRepositoryConcrete()
 SnippetRepositoryConcrete::~SnippetRepositoryConcrete()
 {
     QSqlDatabase::removeDatabase(database().databaseName());
+}
+
+QList<Snippet> SnippetRepositoryConcrete::pullSnippets()
+{
+    SnippetSearchPattern empty_pattern;
+    return pullSnippets(empty_pattern);
+}
+
+QList<Snippet> SnippetRepositoryConcrete::pullSnippets(SnippetSearchPattern &pattern)
+{
+    QList<QVariant> snippet_var = pullFromDatabase(pattern);
+    return parseSnippetsFromVariantList(snippet_var);
+}
+
+QList<Snippet> SnippetRepositoryConcrete::parseSnippetsFromVariantList(QList<QVariant> var_list)
+{
+    QList<Snippet> snippet_list;
+    for (QVariant var : var_list)
+    {
+        if (var.isNull())
+            continue; 
+        // ^ do bazy danych zapisano snippet, ktorego nie da sie odtworzyc
+        // warto zrobic loga
+
+        snippet_list.append(var.value<Snippet>());
+    }
+    return snippet_list;
 }
 
 void SnippetRepositoryConcrete::setDatabasePath(QString &path)
@@ -110,17 +138,10 @@ QVariant SnippetRepositoryConcrete::mapQueryRowToSnippet(const QSqlQuery &query)
         // may be ignored, because snippet goes to variant and must be checked later
     }
 
-    
     return result;
 }
 
-QList<QVariant> SnippetRepositoryConcrete::pullSnippets()
-{
-    SnippetSearchPattern match_pattern;
-    return pullSnippets(match_pattern);
-}
-
-QList<QVariant> SnippetRepositoryConcrete::pullSnippets(SnippetSearchPattern &pattern)
+QList<QVariant> SnippetRepositoryConcrete::pullFromDatabase(SnippetSearchPattern &pattern)
 {
     QList<QVariant> snippets;
     QSqlQuery query;
@@ -134,7 +155,8 @@ QList<QVariant> SnippetRepositoryConcrete::pullSnippets(SnippetSearchPattern &pa
 
     executeQuery(query);
 
-    iterateOverQueryResults(query, snippets, [this, query](QSqlQuery &q, QList<QVariant> &snippets) {
+    iterateOverQueryResults(query, snippets, 
+    [this, query](QSqlQuery &q, QList<QVariant> &snippets) {
         QVariant snipp = mapQueryRowToSnippet(query);
         snippets.append(snipp);
     });
@@ -151,6 +173,8 @@ QSqlQuery SnippetRepositoryConcrete::prepareSelectByFieldsQuery(
     query.prepare(SELECT_BY_FIELDS);
     query.bindValue(BIND_AUTHOR_SUBSEQUENCE, pattern.authorSQLiteSubsequence());
     query.bindValue(BIND_TITLE_SUBSEQUENCE, pattern.titleSQLiteSubsequence());
+    query.bindValue(BIND_CREATED_FROM, pattern.createdFromSQLite());
+    query.bindValue(BIND_CREATED_TO, pattern.createdToSQLite());
     query.bindValue(BIND_SPECIFIED_LANG, pattern.languageSQLite());
 
     return query;

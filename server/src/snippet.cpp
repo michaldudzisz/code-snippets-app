@@ -40,14 +40,14 @@ Snippet::Snippet(QString author, QString title, QDateTime created, QString lang,
 void Snippet::setAuthor(QString author)
 {
     if (author.length() > MAX_AUTHOR_LEN)
-        throw TooLongContentException(Snippet::Field::AUTHOR, author.length());
+        throw TooLongContentException(Field::AUTHOR, author.length());
     author_ = author;
 }
 
 void Snippet::setTitle(QString title)
 {
     if (title.length() > MAX_TITLE_LEN)
-        throw TooLongContentException(Snippet::Field::TITLE, title.length());
+        throw TooLongContentException(Field::TITLE, title.length());
     title_ = title;
 }
 
@@ -59,7 +59,7 @@ void Snippet::setCreated(QDateTime created)
 void Snippet::setLang(QString lang)
 {
     if (lang.length() > MAX_LANG_LEN)
-        throw TooLongContentException(Snippet::Field::LANG, lang.length());
+        throw TooLongContentException(Field::LANG, lang.length());
 
     if (!availableLangs_.contains(lang))
         throw UnsupportedLanguageException(lang.toUtf8().constData()); // moze nie dzialac na windowsie
@@ -70,7 +70,7 @@ void Snippet::setLang(QString lang)
 void Snippet::setContent(QString content)
 {
     if (content.length() > MAX_CONTENT_LEN)
-        throw TooLongContentException(Snippet::Field::CONTENT, content.length());
+        throw TooLongContentException(Field::CONTENT, content.length());
 
     content_ = content;
 }
@@ -104,29 +104,29 @@ QJsonObject Snippet::toJson() const
 {
     QJsonObject json_obj;
 
-    json_obj.insert(fieldToString(Snippet::Field::AUTHOR), author());
-    json_obj.insert(fieldToString(Snippet::Field::TITLE), title());
-    json_obj.insert(fieldToString(Snippet::Field::CREATED), created().toString());
-    json_obj.insert(fieldToString(Snippet::Field::LANG), lang());
-    json_obj.insert(fieldToString(Snippet::Field::CONTENT), content());
+    json_obj.insert(fieldToString(Field::AUTHOR), author());
+    json_obj.insert(fieldToString(Field::TITLE), title());
+    json_obj.insert(fieldToString(Field::CREATED), created().toSecsSinceEpoch());
+    json_obj.insert(fieldToString(Field::LANG), lang());
+    json_obj.insert(fieldToString(Field::CONTENT), content());
 
     return json_obj;
 }
 
 Snippet Snippet::fromJson(QJsonObject &obj)
 {
-    for (int field_int = Snippet::Field::AUTHOR; field_int < Snippet::Field::CONTENT; ++field_int)
+    for (int field_int = Field::AUTHOR; field_int < Field::CONTENT; ++field_int)
     {
-        if (!obj.contains(fieldToString(static_cast<Snippet::Field>(field_int))) ||
-            !obj.value(fieldToString(static_cast<Snippet::Field>(field_int))).isString())
+        if (!obj.contains(fieldToString(static_cast<Field>(field_int))) ||
+            !obj.value(fieldToString(static_cast<Field>(field_int))).isString())
             throw InvalidSnippetJsonException();
     }
 
-    QString author = obj.value(Snippet::fieldToString(Snippet::Field::AUTHOR)).toString();
-    QString title = obj.value(Snippet::fieldToString(Snippet::Field::TITLE)).toString();
-    QDateTime created = QDateTime::fromString(obj.value(Snippet::fieldToString(Snippet::Field::CREATED)).toString());
-    QString lang = obj.value(Snippet::fieldToString(Snippet::Field::LANG)).toString();
-    QString content = obj.value(Snippet::fieldToString(Snippet::Field::CONTENT)).toString();
+    QString author = obj.value(Snippet::fieldToString(Field::AUTHOR)).toString();
+    QString title = obj.value(Snippet::fieldToString(Field::TITLE)).toString();
+    QDateTime created = QDateTime::fromString(obj.value(Snippet::fieldToString(Field::CREATED)).toString());
+    QString lang = obj.value(Snippet::fieldToString(Field::LANG)).toString();
+    QString content = obj.value(Snippet::fieldToString(Field::CONTENT)).toString();
 
     Snippet snippet(author, title, created, lang, content);
 
@@ -138,12 +138,12 @@ Snippet Snippet::fromJson(QJsonObject &&obj)
     return Snippet::fromJson(obj);
 }
 
-QString Snippet::fieldToString(Snippet::Field field)
+QString Snippet::fieldToString(Field field)
 {
     return fieldToStringMap[field];
 }
 
-int Snippet::fieldToItsMaxLength(Snippet::Field field)
+int Snippet::fieldToItsMaxLength(Field field)
 {
     return fieldToItsMaxLengthMap[field];
 }

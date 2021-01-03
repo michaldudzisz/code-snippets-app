@@ -2,20 +2,24 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QVariantMap>
+#include <QDebug>
 
 #include <string>
 #include <iostream>
+#include <cstdio>
 
 #include "apihandler.h"
 #include "snippet.h"
 #include "too_long_content_exception.h"
 #include "invalid_snippet_json_exception.h"
-
+#include "database_error_exception.h"
+#include "snippet_repository_concrete.h"
 
 ApiHandler::ApiHandler()
 {
     handler_.registerMethod("app", this, &ApiHandler::handleRequest);
     server_.setHandler(&handler_);
+    repository_ = SnippetRepositoryConcrete::getInstance();
 }
 
 void ApiHandler::handleRequest(QHttpEngine::Socket *socket)
@@ -33,29 +37,53 @@ void ApiHandler::handleRequest(QHttpEngine::Socket *socket)
 
 void ApiHandler::run()
 {
-    server_.listen(QHostAddress::LocalHost, 8000);
+    server_.listen(QHostAddress::LocalHost, PORT_NUMBER);
 }
 
-void ApiHandler::registerSnippet(Snippet &s)
+void ApiHandler::registerSnippet(Snippet &snippet)
 {
-    if (snippets_.size() > 4)
-        snippets_.removeFirst();
-
-    snippets_.push(s);
+    try
+    {
+        repository_->saveSnippet(snippet);
+    }
+    catch (std::exception &e)
+    {
+        // TODO jakis log z bledem, a dla klienta:
+        throw DatabaseErrorException("Unable to save snippet due to servers problem.");
+    }
 }
 
 void ApiHandler::handleGetRequest(QHttpEngine::Socket *socket)
 {
-    QJsonArray response; 
+    QJsonArray response;
+    SnippetSearchPattern match_pattern;
+    QJsonDocument body;
+    QList<Snippet> snippets;
 
-    for (int i = 0; i < snippets_.length(); ++i)
-        response.push_back(snippets_[i].toJson());
+    if (socket->readJson(body))
+    {
 
+        try 
+        {
+            if (!body.object().isEmpty())
+                match_pattern = SnippetSearchPattern::fromJson(body.object());
+            snippets = repository_->pullSnippets(match_pattern);
+        }
+        catch (std::exception &e)
+        {
+            resendError(socket, e);
+            return;
+        }
 
-    socket->setStatusCode(QHttpEngine::Socket::OK);
-    socket->setHeader("Content-Type", "json");
-    socket->writeHeaders();
-    socket->writeJson(QJsonDocument(response));
+        for (Snippet snipp : snippets)
+            response.append(snipp.toJson());
+
+        respondWithJsonArray(socket, response);
+    }
+    else
+    {
+        resendError(socket, "Invalid get request body - should be a json, even empty");
+    }
 }
 
 void ApiHandler::handlePostRequest(QHttpEngine::Socket *socket)
@@ -67,18 +95,38 @@ void ApiHandler::handlePostRequest(QHttpEngine::Socket *socket)
         {
             Snippet posted = Snippet::fromJson(body.object());
             registerSnippet(posted);
-            socket->setStatusCode(QHttpEngine::Socket::OK);
-            socket->writeHeaders();
         }
         catch (std::exception &e)
         {
-            QJsonObject response;
-            response["message"] = e.what();
-            socket->setStatusCode(QHttpEngine::Socket::BadRequest);
-            socket->setHeader("Content-Type", "json");
-            socket->writeHeaders();
-            socket->writeJson(QJsonDocument(response));
+            resendError(socket, e);
+            return;
         }
+
+        socket->setStatusCode(QHttpEngine::Socket::OK);
+        socket->writeHeaders();
         socket->close();
     }
+}
+
+void ApiHandler::resendError(QHttpEngine::Socket *socket, std::exception &e)
+{
+    resendError(socket, e.what());
+}
+
+void ApiHandler::resendError(QHttpEngine::Socket *socket, const char *info)
+{
+    QJsonObject response;
+    response["message"] = info;
+    socket->setStatusCode(QHttpEngine::Socket::BadRequest);
+    socket->setHeader("Content-Type", "json");
+    socket->writeHeaders();
+    socket->writeJson(QJsonDocument(response));
+}
+
+void ApiHandler::respondWithJsonArray(QHttpEngine::Socket *socket, const QJsonArray &array)
+{
+    socket->setStatusCode(QHttpEngine::Socket::OK);
+    socket->setHeader("Content-Type", "json");
+    socket->writeHeaders();
+    socket->writeJson(QJsonDocument(array));
 }
