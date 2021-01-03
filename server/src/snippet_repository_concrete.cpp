@@ -66,7 +66,7 @@ QSqlQuery SnippetRepositoryConcrete::prepareInsertQuery(const Snippet &snipp)
 
     query.bindValue(BIND_AUTHOR, snipp.author());
     query.bindValue(BIND_TITLE, snipp.title());
-    query.bindValue(BIND_CREATED, snipp.created().toString());
+    query.bindValue(BIND_CREATED, snipp.created().toSecsSinceEpoch());
     query.bindValue(BIND_LANGUAGE, snipp.lang());
     query.bindValue(BIND_CONTENT, snipp.content());
 
@@ -94,7 +94,7 @@ QVariant SnippetRepositoryConcrete::mapQueryRowToSnippet(const QSqlQuery &query)
     {
         author = query.value(0).toString();
         title = query.value(1).toString();
-        created = QDateTime::fromString(query.value(2).toString());
+        created = QDateTime::fromSecsSinceEpoch(query.value(2).toLongLong());
         lang = query.value(3).toString();
         content = query.value(4).toString();
     }
