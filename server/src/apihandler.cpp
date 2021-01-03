@@ -55,6 +55,7 @@ void ApiHandler::registerSnippet(Snippet &snippet)
 
 void ApiHandler::handleGetRequest(QHttpEngine::Socket *socket)
 {
+<<<<<<< HEAD
     QJsonArray response;
     SnippetSearchPattern match_pattern;
     QJsonDocument body;
@@ -62,6 +63,11 @@ void ApiHandler::handleGetRequest(QHttpEngine::Socket *socket)
 
     if (socket->readJson(body))
     {
+=======
+    qInfo() << "received get request";
+
+    QJsonArray response; 
+>>>>>>> b15aa22ab108a091e1901109803d554c16b78b01
 
         try 
         {
@@ -88,6 +94,8 @@ void ApiHandler::handleGetRequest(QHttpEngine::Socket *socket)
 
 void ApiHandler::handlePostRequest(QHttpEngine::Socket *socket)
 {
+    qInfo() << "received post request";
+
     QJsonDocument body;
     if (socket->readJson(body))
     {

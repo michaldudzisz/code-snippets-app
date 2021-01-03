@@ -1,3 +1,4 @@
+others
 generated_files
 CMakeFiles
 objects
@@ -25,3 +26,8 @@ moc_*
 /server/database/snippet_db.db
 /server/build/*
 /server/bin/*
+env
+CMakeLists.txt.user
+build*
+*.save
+

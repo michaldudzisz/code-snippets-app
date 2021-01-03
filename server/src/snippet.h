@@ -77,3 +77,4 @@ private:
 Q_DECLARE_METATYPE(Snippet);
 
 #endif
+

@@ -22,7 +22,7 @@ SOURCES += invalid_snippet_json_exception.cpp
 #TEMPLATE += subdirs
 #SUBDIRS += tests/
 
-
+CONFIG += console
 
 QT -= gui
 QT += core
