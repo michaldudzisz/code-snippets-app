@@ -11,8 +11,12 @@
 Zakłada się, że użytkownik ma zainstalowane globalnie biblioteki qt5 oraz sterownik do obsługi bazy danych SQLite3. 
 
 Jeśli nie ma, to może to zrobić tak: 
-`sudo apt-get install qt5-default`
-`sudo apt-get install sqlite3`
+
+
+`$ sudo apt-get install qt5-default`
+
+
+`$ sudo apt-get install sqlite3`
   
 
 Serwer wykorzystuje zewnętrzną bibliotekę opartą na qt - [QHTTPEngine](https://github.com/nitroshare/qhttpengine). Jej pliki źródłowe są dołączone do projektu<sup>1)</sup> code-snippet-app, nie trzeba więc jej dodatkowo pobierać. Aby ją zainstalować (w folderze projektu, nie globalnie) należy przejść w terminalu do folderu z projektem i wywołać komendy:
@@ -29,7 +33,7 @@ Serwer wykorzystuje zewnętrzną bibliotekę opartą na qt - [QHTTPEngine](https
 
 Tworzenie bazy danych:
 
-5. `$ ./unix-setup.sh`
+5. `$ cd database && ./unix-setup.sh`
   
 Budowanie projektu. Będąc w katalogu `server`.
 
