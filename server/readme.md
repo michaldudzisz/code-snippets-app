@@ -1,4 +1,4 @@
-# Szkielet aplikacji serwera:
+# Szkielet aplikacji serwera
 
   
   
@@ -31,11 +31,11 @@ Serwer wykorzystuje zewnętrzną bibliotekę opartą na qt - [QHTTPEngine](https
 
 4. `$ make install`
 
-Tworzenie bazy danych:
+Tworzenie bazy danych. Będąc w katalogu `server`:
 
 5. `$ cd database && ./unix-setup.sh`
   
-Budowanie projektu. Będąc w katalogu `server`.
+Budowanie projektu. Będąc w katalogu `server`:
 
 
 6. `$ mkdir build && cd build`
@@ -46,7 +46,7 @@ Budowanie projektu. Będąc w katalogu `server`.
 
   
 
-Uruchomienie aplikacji (będąc w katalogu `server`):
+Uruchomienie aplikacji. Będąc w katalogu `server`:
 
 
 9. `$ cd bin`
@@ -90,7 +90,7 @@ Klasa `SnippetSearchPattern` ma pola:
 
 Wszystkie pola są opcjonalne i można je dowolnie łączyć. Do zamieniania klasy `SnippetSearchPattern` na json służy funkcja `SnippetSearchPattern::toJson()` - zamienia ona dobrze niesprecyzowane daty (które normalnie są nieokreślone) na nulle w postaci jsona. 
 
-Klasy `SnippetSearchPattern` można użyć tak:
+Obiekt klasy `SnippetSearchPattern` można stworzyć tak:
 
 ```c++
 SnippetSearchPattern pattern;
