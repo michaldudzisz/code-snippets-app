@@ -58,6 +58,7 @@ void Worker::readyRead()
 
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
     QByteArray byte_array = reply->readAll();
+    qInfo() << byte_array;
     emit data_received(byte_array);
 
     if (reply) qInfo() << reply->readAll();

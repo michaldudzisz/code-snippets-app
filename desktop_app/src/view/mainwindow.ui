@@ -126,22 +126,22 @@ p, li { white-space: pre-wrap; }
            </property>
            <item>
             <property name="text">
-             <string>All</string>
+             <string/>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>C++</string>
+             <string>c++</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Python</string>
+             <string>python</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Java</string>
+             <string>javascript</string>
             </property>
            </item>
           </widget>

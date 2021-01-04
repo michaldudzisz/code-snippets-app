@@ -43,9 +43,6 @@ void AddSnippetWindow::on_browse_button_clicked()
 
 void AddSnippetWindow::on_add_button_clicked()
 {
-    QString snippet_content = ui->text_snippet->toPlainText();
-    QString snippet_title = ui->text_title->toPlainText();
-
     /*
     if (snippet_content.isEmpty()) {
         QMessageBox::warning(this, "title", "There is no text");
