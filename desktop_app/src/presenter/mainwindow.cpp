@@ -15,7 +15,9 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //data4tests();
+    ui->date_to_edit->setDate(QDate::currentDate());
+    ui->date_to_edit->setTime(QTime::currentTime());
+
     connect(&worker_, &Worker::data_received, this, &MainWindow::handle_data);
 }
 
@@ -26,18 +28,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_find_button_clicked()
 {
-    QString query = ui->form_query->toPlainText();
-   // ui->list_snippets->addItem(query);
-   show_snippets();
-   //worker_.get("http://127.0.0.1:8000/app");
+   QString title = ui->title_text->toPlainText();
+   QString lang = ui->langBox->currentText();
+   QString author = ui->author_text->toPlainText();
+   QDateTime date_to = ui->date_from_edit->dateTime();
+   QDateTime date_from = ui->date_to_edit->dateTime();
 
-   QString title;
-   QString lang;
-   worker_.get(title, lang);
-
+   worker_.get(title, lang, author, date_from, date_to);
    QJsonObject data = create_single_snippet().toJson();
-
-  // worker_.post("http://127.0.0.1:8000/app", QJsonDocument(data).toJson());
 
    Snippet snip = create_single_snippet();
    worker_.post(snip);
