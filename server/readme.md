@@ -77,7 +77,7 @@ Serwer nasłuchuje na porcie 8000 pod adresem `app` (`localhost:8000/app`). Przy
 
   
 
-oraz zapytania `GET` o body będącym pustym obiektem json lub obiektem klasy SnippetSearchPattern zamienionym na json (`SnippetSearchPattern::toJson()`). 
+oraz zapytania `GET` o body będącym pustym obiektem json (`{}`) lub obiektem klasy SnippetSearchPattern zamienionym na json (`SnippetSearchPattern::toJson()`). 
 
 Odpowiedzą na zapytanie typu `GET` z body w postaci pustego obiektu json jest lista maksymalnie 5 snippetów w formacie json ostatnio dodanych przez zapytania `POST` (formalnie są to obiekty o najwyższym id w bazie danych). 
 
@@ -96,6 +96,18 @@ Obiekt klasy `SnippetSearchPattern` można stworzyć tak:
 SnippetSearchPattern pattern;
 pattern.setAuthorSubsequence("userna")
 pattern.setLang("c++");
+```
+
+Przykładowy json obiektu `SnippetSearchPattern`:
+
+```json
+{
+    "author_subsequence": "",
+    "title_subsequence": "titl",
+    "created_from": 1609675073,
+    "created_to": null,
+    "lang": ""
+}
 ```
 
 Każde nieustwione pole ma domyślnie pustą wartość.
