@@ -23,7 +23,7 @@ signals:
     void data_received(QByteArray& byte_array);
 
 public slots:
-    void get(QString& title, QString& lang);
+    void get(QString& title, QString& lang, QString& author, QDateTime& date_from, QDateTime& date_to);
     void post(Snippet& snip);
 
 private slots:

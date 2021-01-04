@@ -28,7 +28,6 @@ private slots:
     void on_save_clicked();
     void handle_data(QByteArray& byte_array);
 
-
 private:
     Ui::MainWindow *ui;
     AddSnippetWindow* add_snippet_window;
