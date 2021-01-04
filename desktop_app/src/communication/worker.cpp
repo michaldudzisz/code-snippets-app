@@ -15,15 +15,15 @@ void Worker::get(QString& title, QString& lang, QString& author, QDateTime& date
     QUrl url(LOCATION_);
     QUrlQuery query;
 
-    query.addQueryItem("title", title);
+    query.addQueryItem("title_subsequence", title);
     query.addQueryItem("lang", lang);
-    query.addQueryItem("author", author);
+    query.addQueryItem("author_subsequence", author);
 
     qint64 int_date_from = date_from.toSecsSinceEpoch();
-    query.addQueryItem("from", QString::number(int_date_from));
+    query.addQueryItem("created_from", QString::number(int_date_from));
 
     qint64 int_date_to = date_to.toSecsSinceEpoch();
-    query.addQueryItem("to", QString::number(int_date_to));
+    query.addQueryItem("created_to", QString::number(int_date_to));
     url.setQuery(query);
 
     qInfo() << url.query();
