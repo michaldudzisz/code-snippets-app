@@ -6,6 +6,10 @@
 #include <QDateTime>
 #include <QJsonObject>
 
+#include "qhttpengine/socket.h"
+
+typedef QHttpEngine::Socket::QueryStringMap QueryStringMap;
+
 struct SnippetSearchPattern : QObject
 {
     Q_OBJECT
@@ -24,6 +28,9 @@ public:
     QString languageSQLite() const;
 
     bool isEmpty() const;
+    static SnippetSearchPattern fromQueryString(const QueryStringMap &query);
+    static QDateTime queryStringToDateTime(const QString &query);
+    static QDateTime queryStringToDateTime(const QString &&query);
     static SnippetSearchPattern fromJson(QJsonObject &obj);
     static SnippetSearchPattern fromJson(QJsonObject &&obj);
     QJsonObject toJson() const;

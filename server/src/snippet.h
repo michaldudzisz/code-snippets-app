@@ -32,6 +32,7 @@ public:
     Snippet &operator=(const Snippet &s);
     bool operator==(const Snippet &s);
 
+    static void validateSnippetJson(QJsonObject &obj);
     QJsonObject toJson() const;
     static Snippet fromJson(QJsonObject &obj);
     static Snippet fromJson(QJsonObject &&obj);

@@ -55,41 +55,30 @@ void ApiHandler::registerSnippet(Snippet &snippet)
 
 void ApiHandler::handleGetRequest(QHttpEngine::Socket *socket)
 {
-<<<<<<< HEAD
     QJsonArray response;
-    SnippetSearchPattern match_pattern;
     QJsonDocument body;
     QList<Snippet> snippets;
+    SnippetSearchPattern match_pattern;
 
-    if (socket->readJson(body))
-    {
-=======
     qInfo() << "received get request";
 
-    QJsonArray response; 
->>>>>>> b15aa22ab108a091e1901109803d554c16b78b01
+    QHttpEngine::Socket::QueryStringMap query_string = socket -> queryString();
 
-        try 
-        {
-            if (!body.object().isEmpty())
-                match_pattern = SnippetSearchPattern::fromJson(body.object());
-            snippets = repository_->pullSnippets(match_pattern);
-        }
-        catch (std::exception &e)
-        {
-            resendError(socket, e);
-            return;
-        }
-
-        for (Snippet snipp : snippets)
-            response.append(snipp.toJson());
-
-        respondWithJsonArray(socket, response);
-    }
-    else
+    try 
     {
-        resendError(socket, "Invalid get request body - should be a json, even empty");
+        match_pattern = SnippetSearchPattern::fromQueryString(query_string);
+        snippets = repository_->pullSnippets(match_pattern);
     }
+    catch (std::exception &e)
+    {
+        resendError(socket, e);
+        return;
+    }
+
+    for (Snippet snipp : snippets)
+        response.append(snipp.toJson());
+
+    respondWithJsonArray(socket, response);
 }
 
 void ApiHandler::handlePostRequest(QHttpEngine::Socket *socket)

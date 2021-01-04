@@ -1,5 +1,7 @@
 #include <algorithm>
 
+#include <QDebug>
+
 #include "snippet.h"
 #include "too_long_content_exception.h"
 #include "invalid_snippet_json_exception.h"
@@ -115,16 +117,14 @@ QJsonObject Snippet::toJson() const
 
 Snippet Snippet::fromJson(QJsonObject &obj)
 {
-    for (int field_int = Field::AUTHOR; field_int < Field::CONTENT; ++field_int)
-    {
-        if (!obj.contains(fieldToString(static_cast<Field>(field_int))) ||
-            !obj.value(fieldToString(static_cast<Field>(field_int))).isString())
-            throw InvalidSnippetJsonException();
-    }
+    validateSnippetJson(obj);
 
     QString author = obj.value(Snippet::fieldToString(Field::AUTHOR)).toString();
     QString title = obj.value(Snippet::fieldToString(Field::TITLE)).toString();
-    QDateTime created = QDateTime::fromString(obj.value(Snippet::fieldToString(Field::CREATED)).toString());
+
+    qint64 date_time = obj.value(Snippet::fieldToString(Field::CREATED)).toDouble();
+    QDateTime created = QDateTime::fromSecsSinceEpoch(date_time);
+
     QString lang = obj.value(Snippet::fieldToString(Field::LANG)).toString();
     QString content = obj.value(Snippet::fieldToString(Field::CONTENT)).toString();
 
@@ -167,7 +167,7 @@ Snippet &Snippet::operator=(const Snippet &s)
 {
     if (&s == this)
         return *this;
-    
+
     setAuthor(s.author());
     setTitle(s.title());
     setCreated(s.created());
@@ -193,4 +193,30 @@ QVariant Snippet::toVariant() const
 QStringList Snippet::availableLangs()
 {
     return availableLangs_;
+}
+
+void Snippet::validateSnippetJson(QJsonObject &obj)
+{
+    bool isValid = true;
+    isValid = isValid && obj.contains(fieldToString(Field::AUTHOR)) &&
+             obj.value(fieldToString(Field::AUTHOR)).isString();
+    isValid = isValid && obj.contains(fieldToString(Field::TITLE)) &&
+             obj.value(fieldToString(Field::TITLE)).isString();
+    isValid = isValid && obj.contains(fieldToString(Field::LANG)) &&
+             obj.value(fieldToString(Field::LANG)).isString();
+
+    isValid = isValid && obj.contains(fieldToString(Field::CREATED)) &&
+             obj.value(fieldToString(Field::CREATED)).isDouble();
+
+    if (isValid)
+    {
+        QJsonValue val = obj.value(fieldToString(Field::CREATED));
+        QVariant val_maybe = val.toVariant();
+        bool readCorrectly = false;
+        qint64 secSinceEpoch = val_maybe.toLongLong(&readCorrectly);
+        isValid = isValid && readCorrectly;
+    }
+
+    if (!isValid)
+        throw InvalidSnippetJsonException();
 }

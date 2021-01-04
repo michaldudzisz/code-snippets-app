@@ -232,3 +232,45 @@ QJsonValue SnippetSearchPattern::dateToJsonValue(const QDateTime &date)
 
     return json_val;
 }
+
+SnippetSearchPattern SnippetSearchPattern::fromQueryString(const QueryStringMap &query)
+{
+    SnippetSearchPattern pattern;
+
+    if (query.isEmpty())
+        return pattern;
+
+    if (query.contains(AUTHOR_JSON_FIELD))
+        pattern.setAuthorSubsequence(query.value(AUTHOR_JSON_FIELD));
+    if (query.contains(TITLE_JSON_FIELD))
+        pattern.setTitleSubsequence(query.value(TITLE_JSON_FIELD));
+    if (query.contains(LANG_JSON_FIELD))
+        pattern.setLang(query.value(LANG_JSON_FIELD));
+
+    if (query.contains(CREATED_FROM_JSON_FIELD) && !query.value(CREATED_FROM_JSON_FIELD).isEmpty())
+    {
+        QString value = query.value(CREATED_FROM_JSON_FIELD);
+        pattern.setCreatedFrom(queryStringToDateTime(value));
+    }
+    if (query.contains(CREATED_TO_JSON_FIELD) && !query.value(CREATED_TO_JSON_FIELD).isEmpty())
+    {
+        QString value = query.value(CREATED_TO_JSON_FIELD);
+        pattern.setCreatedFrom(queryStringToDateTime(value));
+    }
+
+    return pattern;
+}
+
+QDateTime SnippetSearchPattern::queryStringToDateTime(const QString &query)
+{
+    bool read_correctly = false;
+    qint64 date_time = query.toLongLong(&read_correctly);
+    if (!read_correctly)
+        throw InvalidGetRequestBodyException();
+    return QDateTime::fromSecsSinceEpoch(date_time);
+}
+
+QDateTime SnippetSearchPattern::queryStringToDateTime(const QString &&query)
+{
+    return queryStringToDateTime(query);
+}
