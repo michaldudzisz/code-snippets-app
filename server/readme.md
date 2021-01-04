@@ -97,6 +97,7 @@ SnippetSearchPattern pattern;
 pattern.setAuthorSubsequence("userna")
 pattern.setLang("c++");
 ```
+Każde nieustwione pole ma domyślnie pustą wartość.
 
 Przykładowy json obiektu `SnippetSearchPattern`:
 
@@ -109,8 +110,6 @@ Przykładowy json obiektu `SnippetSearchPattern`:
     "lang": ""
 }
 ```
-
-Każde nieustwione pole ma domyślnie pustą wartość.
 
 Wynikiem każdego poprawnego zapytania `GET` jest json - lista obiektów snippet. Może być pusta.
 
