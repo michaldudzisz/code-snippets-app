@@ -97,15 +97,15 @@ Budowanie projektu zaczynając w katalogu `code-snippet-app\server\`:
 
 9. `> cmake ..`- może być potrzebne sprecyzowanie generatora (np. opcja `/G "Visual Studio 16 2019"`). Listę dostępnych w systemie generatorów można uzyskać komendą `cmake /help`.
 
-10. `cd ..\src`
+10. `> cd ..\src`
 
-11. `windows-after-build-setup.bat`
+11. `> windows-after-build-setup.bat`
 
 Uruchomienie:
 
-12. `cd bin`
+12. `> cd bin`
 
-13. `.\server.exe`
+13. `> .\server.exe`
 
 # Testowanie
 
