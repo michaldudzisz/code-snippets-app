@@ -20,6 +20,7 @@ public:
 private slots:
     void on_browse_button_clicked();
     void on_add_button_clicked();
+    void handle_communication_error(int status_code);
 
 private:
     Ui::AddSnippetWindow *ui;

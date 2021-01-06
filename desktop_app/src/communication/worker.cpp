@@ -68,8 +68,18 @@ void Worker::post(Snippet& snip)
 void Worker::readyRead()
 {
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
-    QByteArray byte_array = reply->readAll();
 
+    QVariant status_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+
+    if (!status_code.isValid()) {
+        return;
+    }
+
+    if (status_code.toInt() != 200) {
+        emit communication_error(status_code.toInt());
+    }
+
+    QByteArray byte_array = reply->readAll();
     emit data_received(byte_array);
 }
 

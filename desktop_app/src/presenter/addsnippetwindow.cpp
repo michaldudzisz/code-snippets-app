@@ -18,6 +18,8 @@ AddSnippetWindow::AddSnippetWindow(QWidget *parent) :
     ui(new Ui::AddSnippetWindow)
 {
     ui->setupUi(this);
+
+    connect(&worker_, &Worker::communication_error, this, &AddSnippetWindow::handle_communication_error);
 }
 
 
@@ -32,7 +34,8 @@ void AddSnippetWindow::on_browse_button_clicked()
     QString file_name = QFileDialog::getOpenFileName(this, "open a file", "");
     QFile file(file_name);
 
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
         QMessageBox::warning(this, "title", "file not open");
     }
 
@@ -72,10 +75,16 @@ void AddSnippetWindow::on_add_button_clicked()
     {
         QMessageBox::warning(this, "title", "Such language is not supported");
     }
-
-
 }
 
+void AddSnippetWindow::handle_communication_error(int status_code)
+{
+    QMessageBox::information(
+                this,
+                "Error with post",
+                "Connection failed, http status code: " + QString::number(status_code)
+                );
+}
 
 bool AddSnippetWindow::check_if_filled()
 {
@@ -91,7 +100,7 @@ bool AddSnippetWindow::check_if_filled()
     }
     if (ui->text_author->toPlainText().isEmpty())
     {
-        QMessageBox::warning(this, "error", "There is no title");
+        QMessageBox::warning(this, "error", "There is no author");
         return false;
     }
     return true;

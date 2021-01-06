@@ -13,7 +13,6 @@
 #include <QHash>
 #include <../server/src/snippet.h>
 
-
 class Worker : public QObject
 {
     Q_OBJECT
@@ -22,6 +21,7 @@ public:
 
 signals:
     void data_received(QByteArray& byte_array);
+    void communication_error(int status_code);
 
 public slots:
     void get(QString& title, QString& lang, QString& author, QDateTime& date_from, QDateTime& date_to);

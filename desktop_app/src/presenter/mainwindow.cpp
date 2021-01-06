@@ -20,7 +20,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->date_to_edit->setTime(QTime::currentTime());
     ui->view_content->setReadOnly(true);
 
+    set_date_text_color(ui->date_from_edit, ui->date_from_box->isChecked());
+    set_date_text_color(ui->date_to_edit, ui->date_to_box->isChecked());
+
     connect(&worker_, &Worker::data_received, this, &MainWindow::handle_data);
+    connect(&worker_, &Worker::communication_error, this, &MainWindow::handle_communication_error);
 }
 
 MainWindow::~MainWindow()
@@ -37,7 +41,7 @@ void MainWindow::on_find_button_clicked()
 
    if (!title.isEmpty())
    {
-       map.insert("title_substring", title);
+       map.insert("title_subsequence", title);
    }
 
    QString lang = ui->langBox->currentText();
@@ -51,11 +55,8 @@ void MainWindow::on_find_button_clicked()
 
    if (!author.isEmpty())
    {
-       map.insert("author_substring", author);
+       map.insert("author_subsequence", author);
    }
-
-   QDateTime test_date = QDateTime::currentDateTime();
-   qDebug() << test_date.toSecsSinceEpoch();
 
    if (ui->date_from_box->isChecked())
    {
@@ -142,7 +143,8 @@ void MainWindow::handle_data(QByteArray& byte_array)
     QJsonDocument json_document = QJsonDocument::fromJson(byte_array);
     const QJsonArray json_array = json_document.array();
 
-    try {
+    try
+    {
         snippets_.clear();
         for (const auto& json : json_array)
         {
@@ -157,11 +159,37 @@ void MainWindow::handle_data(QByteArray& byte_array)
     }
 }
 
-void MainWindow::on_date_from_box_stateChanged(int arg1)
+void MainWindow::handle_communication_error(int status_code)
 {
-    /*
-    QFont
-    if (arg1)
-    ui->date_from_edit->setFont()
-    qInfo() << arg1; */
+    QMessageBox::information(
+                this,
+                "Error with get",
+                "Connection failed, http status code: " + QString::number(status_code)
+                );
+}
+
+void MainWindow::on_date_from_box_stateChanged(int arg)
+{
+    set_date_text_color(ui->date_from_edit, arg);
+}
+
+void MainWindow::on_date_to_box_stateChanged(int arg)
+{
+    set_date_text_color(ui->date_to_edit, arg);
+}
+
+void MainWindow::set_date_text_color(QDateTimeEdit* widget, int arg)
+{
+    QPalette pal = widget->palette();
+
+    if (arg)
+    {
+        pal.setColor(QPalette::Text, BLACK_);
+        widget->setPalette(pal);
+    }
+    else
+    {
+        pal.setColor(QPalette::Text, GREY_);
+        widget->setPalette(pal);
+    }
 }
