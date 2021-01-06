@@ -13,10 +13,21 @@ set(TEST_SOURCES
 
 add_executable(test ${TEST_SOURCES} ${SOURCES_TO_TEST})
 
-target_link_libraries(test 
-    qhttpengine
-    Qt5::Core 
-    Qt5::Network 
-    Qt5::Sql 
-    Qt5::Test
-)
+if (WIN32)
+	target_link_libraries(test 
+	    ${qhttpengine-libpath}
+	    Qt5::Core 
+	    Qt5::Network 
+	    Qt5::Sql 
+	    Qt5::Test
+	)
+else()
+	target_link_libraries(test 
+	    qhttpengine
+	    Qt5::Core 
+	    Qt5::Network 
+	    Qt5::Sql 
+	    Qt5::Test
+	)
+endif()
+

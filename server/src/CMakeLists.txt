@@ -49,17 +49,28 @@ set(CMAKE_INSTALL_RPATH ${ABSOLUTE_SERVER_PATH}/lib/lib)
 
 add_executable(server ${SOURCES})
 
-add_library(qhttpengine SHARED IMPORTED)
-set_property(TARGET qhttpengine PROPERTY IMPORTED_LOCATION
-    ${CMAKE_INSTALL_RPATH}/libqhttpengine.so)
-
-target_link_libraries(server 
-    qhttpengine
-    Qt5::Core 
-    Qt5::Network 
-    Qt5::Sql 
-    Qt5::Test
-)
+if (WIN32)
+	find_library(qhttpengine-libpath qhttpengine ${CMAKE_INSTALL_RPATH})
+	target_link_libraries(server 
+		${qhttpengine-libpath}
+		Qt5::Core 
+		Qt5::Network 
+		Qt5::Sql 
+		Qt5::Test
+	)
+else()
+	add_library(qhttpengine SHARED IMPORTED)
+	set_property(TARGET qhttpengine PROPERTY IMPORTED_LOCATION
+    		${CMAKE_INSTALL_RPATH}/libqhttpengine.so
+	)
+	target_link_libraries(server 
+		qhttpengine
+		Qt5::Core 
+		Qt5::Network 
+		Qt5::Sql 
+		Qt5::Test
+	)
+endif()
 
 add_subdirectory(tests)
 
