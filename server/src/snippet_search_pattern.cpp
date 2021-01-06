@@ -255,7 +255,7 @@ SnippetSearchPattern SnippetSearchPattern::fromQueryString(const QueryStringMap 
     if (query.contains(CREATED_TO_JSON_FIELD) && !query.value(CREATED_TO_JSON_FIELD).isEmpty())
     {
         QString value = query.value(CREATED_TO_JSON_FIELD);
-        pattern.setCreatedFrom(queryStringToDateTime(value));
+        pattern.setCreatedTo(queryStringToDateTime(value));
     }
 
     return pattern;
