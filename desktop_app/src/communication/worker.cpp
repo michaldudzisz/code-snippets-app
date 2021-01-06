@@ -1,6 +1,7 @@
 #include "worker.h"
 #include <QUrl>
 #include <QUrlQuery>
+#include <QHash>
 #include "../presenter/mainwindow.h"
 
 
@@ -32,6 +33,30 @@ void Worker::get(QString& title, QString& lang, QString& author, QDateTime& date
 
     QNetworkRequest request(url);
 
+    QNetworkReply* reply = manager_.get(request);
+
+    connect(reply, &QNetworkReply::readyRead, this, &Worker::readyRead);
+}
+
+void Worker::get(QHash<QString, QString>& hashMap)
+{
+    QUrl url(LOCATION_);
+    QUrlQuery query;
+
+    QHashIterator<QString, QString> i(hashMap);
+    while (i.hasNext()) {
+        i.next();
+        qInfo() << i.key() + " : " + i.value();
+        query.addQueryItem(i.key(), i.value());
+    }
+
+    url.setQuery(query);
+
+    qInfo() << url.query();
+    qInfo() << url.toString();
+    qInfo() << url.url();
+
+    QNetworkRequest request(url);
     QNetworkReply* reply = manager_.get(request);
 
     connect(reply, &QNetworkReply::readyRead, this, &Worker::readyRead);

@@ -10,6 +10,7 @@
 #include <QByteArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QHash>
 #include <../server/src/snippet.h>
 
 
@@ -24,6 +25,7 @@ signals:
 
 public slots:
     void get(QString& title, QString& lang, QString& author, QDateTime& date_from, QDateTime& date_to);
+    void get(QHash<QString, QString>& hashMap);
     void post(Snippet& snip);
 
 private slots:

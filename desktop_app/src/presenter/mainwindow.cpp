@@ -28,18 +28,45 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_find_button_clicked()
 {
+   QHash<QString, QString> map;
+
+
    QString title = ui->title_text->toPlainText();
+   if (!title.isEmpty()) {
+       map.insert("title_substring", title);
+   }
+
    QString lang = ui->langBox->currentText();
+   if (!lang.isEmpty()) {
+       map.insert("lang", lang);
+   }
+
    QString author = ui->author_text->toPlainText();
-   QDateTime date_to = ui->date_from_edit->dateTime();
-   QDateTime date_from = ui->date_to_edit->dateTime();
+   if (!author.isEmpty()) {
+       map.insert("author_substring", author);
+   }
 
-   worker_.get(title, lang, author, date_from, date_to);
-   QJsonObject data = create_single_snippet().toJson();
+   QDateTime test_date = QDateTime::currentDateTime();
+   qDebug() << test_date.toSecsSinceEpoch();
 
-   Snippet snip = create_single_snippet();
-   worker_.post(snip);
-   qDebug() << "size: " + QString::number(snippets_.size());
+   if (ui->date_from_box->isChecked())
+   {
+    QDateTime date_from = ui->date_from_edit->dateTime();
+    qint64 int_date_from = date_from.toSecsSinceEpoch();
+    QString string_date_from = QString::number(int_date_from);
+    map.insert("created_from", string_date_from);
+   }
+
+   if (ui->date_to_box->isChecked())
+   {
+   QDateTime date_to = ui->date_to_edit->dateTime();
+   qint64 int_date_to = date_to.toSecsSinceEpoch();
+   QString string_date_to = QString::number(int_date_to);
+   map.insert("created_to", string_date_to);
+   }
+
+
+   worker_.get(map);
 }
 
 void MainWindow::on_list_snippets_itemClicked(/*QListWidgetItem *item*/)
