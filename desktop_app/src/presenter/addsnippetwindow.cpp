@@ -12,6 +12,7 @@
 #include <QJsonObject>
 #include "../communication/worker.h"
 
+
 AddSnippetWindow::AddSnippetWindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AddSnippetWindow)
@@ -19,10 +20,12 @@ AddSnippetWindow::AddSnippetWindow(QWidget *parent) :
     ui->setupUi(this);
 }
 
+
 AddSnippetWindow::~AddSnippetWindow()
 {
     delete ui;
 }
+
 
 void AddSnippetWindow::on_browse_button_clicked()
 {
@@ -41,17 +44,16 @@ void AddSnippetWindow::on_browse_button_clicked()
     file.close();
 }
 
-void AddSnippetWindow::on_add_button_clicked()
-{
-    /*
-    if (snippet_content.isEmpty()) {
-        QMessageBox::warning(this, "title", "There is no text");
-    }
-    else if (snippet_title.isEmpty()) {
-        QMessageBox::warning(this, "title", "There is no title");
-    } */
 
-    try {
+void AddSnippetWindow::on_add_button_clicked()
+{ 
+    if (!check_if_filled())
+    {
+        return;
+    }
+
+    try
+    {
         Snippet new_snippet(
                     ui->text_author->toPlainText(),
                     ui->text_title->toPlainText(),
@@ -61,10 +63,36 @@ void AddSnippetWindow::on_add_button_clicked()
 
         worker_.post(new_snippet);
 
-    } catch(TooLongContentException& e) {
+    }
+    catch(TooLongContentException& e)
+    {
         QMessageBox::warning(this, "title", "Text is too long");
-    } catch(UnsupportedLanguageException& e) {
+    }
+    catch(UnsupportedLanguageException& e)
+    {
         QMessageBox::warning(this, "title", "Such language is not supported");
     }
 
+
+}
+
+
+bool AddSnippetWindow::check_if_filled()
+{
+    if (ui->text_snippet->toPlainText().isEmpty())
+    {
+        QMessageBox::warning(this, "error", "There is no text");
+        return false;
+    }
+    if (ui->text_title->toPlainText().isEmpty())
+    {
+        QMessageBox::warning(this, "error", "There is no title");
+        return false;
+    }
+    if (ui->text_author->toPlainText().isEmpty())
+    {
+        QMessageBox::warning(this, "error", "There is no title");
+        return false;
+    }
+    return true;
 }

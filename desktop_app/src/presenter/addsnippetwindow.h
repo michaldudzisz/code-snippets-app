@@ -24,6 +24,8 @@ private slots:
 private:
     Ui::AddSnippetWindow *ui;
     Worker worker_;
+    bool check_if_filled();
+
 };
 
 #endif // ADDSNIPPETWINDOW_H

@@ -27,10 +27,10 @@ private slots:
     void on_new_button_clicked(); 
     void on_save_clicked();
     void handle_data(QByteArray& byte_array);
+    void on_date_from_box_stateChanged(int arg1);
 
 private:
     Ui::MainWindow *ui;
-    AddSnippetWindow* add_snippet_window;
     QVector<Snippet> snippets_;
     Worker worker_;
     void show_snippets();

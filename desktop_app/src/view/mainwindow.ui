@@ -126,7 +126,7 @@ p, li { white-space: pre-wrap; }
            </property>
            <item>
             <property name="text">
-             <string/>
+             <string>all</string>
             </property>
            </item>
            <item>
