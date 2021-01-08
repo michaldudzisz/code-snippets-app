@@ -13,6 +13,10 @@
 #include <QHash>
 #include <../server/src/snippet.h>
 
+/** @brief Responsible for sending requests and receving data
+ *
+ */
+
 class Worker : public QObject
 {
     Q_OBJECT

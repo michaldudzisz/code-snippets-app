@@ -30,4 +30,4 @@ env
 CMakeLists.txt.user
 build*
 *.save
-
+docs
