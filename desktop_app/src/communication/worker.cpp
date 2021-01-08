@@ -10,36 +10,15 @@ Worker::Worker(QObject *parent) : QObject(parent)
 
 }
 
-void Worker::get(QString& title, QString& lang, QString& author, QDateTime& date_from, QDateTime& date_to)
-{
-    QUrl url(LOCATION_);
-    QUrlQuery query;
-
-    query.addQueryItem("title_subsequence", title);
-    query.addQueryItem("lang", lang);
-    query.addQueryItem("author_subsequence", author);
-
-    qint64 int_date_from = date_from.toSecsSinceEpoch();
-    query.addQueryItem("created_from", QString::number(int_date_from));
-
-    qint64 int_date_to = date_to.toSecsSinceEpoch();
-    query.addQueryItem("created_to", QString::number(int_date_to));
-    url.setQuery(query);
-
-    QNetworkRequest request(url);
-
-    QNetworkReply* reply = manager_.get(request);
-
-    connect(reply, &QNetworkReply::readyRead, this, &Worker::readyRead);
-}
-
 void Worker::get(QHash<QString, QString>& hash_map)
 {
     QUrl url(LOCATION_);
     QUrlQuery query;
 
     QHashIterator<QString, QString> i(hash_map);
-    while (i.hasNext()) {
+
+    while (i.hasNext()) 
+    {
         i.next();
         query.addQueryItem(i.key(), i.value());
     }
@@ -71,11 +50,13 @@ void Worker::readyRead()
 
     QVariant status_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
 
-    if (!status_code.isValid()) {
+    if (!status_code.isValid()) 
+    {
         return;
     }
 
-    if (status_code.toInt() != 200) {
+    if (status_code.toInt() != 200) 
+    {
         emit communication_error(status_code.toInt());
     }
 

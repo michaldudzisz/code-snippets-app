@@ -31,13 +31,12 @@ signals:
      */
     void data_received(QByteArray& byte_array);
 
-    /** Signal emitted when server sends message with status code other than 200
+    /** Signal emitted when server responds with message of status code other than 200
      * @param status_code error's code
      */
     void communication_error(int status_code);
 
 public slots:
-    void get(QString& title, QString& lang, QString& author, QDateTime& date_from, QDateTime& date_to);
     /* Method allowing sending get request. Request is created basing on given argument.
      * @param hash_map map with possible following keys: author_subsequence,
      * title_subsequence, author_subsequence, created_from, created_to.
