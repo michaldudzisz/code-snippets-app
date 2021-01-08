@@ -11,19 +11,43 @@
 #include "snippet_repository_interface.h"
 #include "snippet_search_pattern.h"
 
+/** @brief Singleton implementation of SnippetRepositoryInterface. Responsible for database access */
+
 class SnippetRepositoryConcrete : public QObject, public SnippetRepositoryInterface
 {
     Q_OBJECT
 
 public:
+    /** As for a singleton, assignment operator is prohibited */
     SnippetRepositoryConcrete(SnippetRepositoryConcrete &other) = delete;
+    /** As for a singleton, copying constructor is prohibited */
     void operator=(const SnippetRepositoryConcrete &other) = delete;
+    
     ~SnippetRepositoryConcrete();
 
+    /** Retrieves a singleton instance. 
+     * @return Shared pointer to a singleton's instance 
+     */
     static QSharedPointer<SnippetRepositoryConcrete> getInstance();
 
+    /** Implementation of SnippetRepositoryInterface#saveSnippet()
+     * Saves snippet to a database.
+     * @param s Snippet to be saved in a database.
+     * @see SnippetRepositoryInterface#saveSnippet
+     */ 
     void saveSnippet(Snippet &s) override;
+
+    /** Implementation of SnippetRepositoryInterface#pullSnippets()
+     * Retrieves up to 5 last saved to database snippets.
+     * @see SnippetRepositoryInterface#pullSnippets
+     */ 
     QList<Snippet> pullSnippets() override;
+
+    /** Implementation of SnippetRepositoryInterface#pullSnippets(SnippetSearchPattern &)
+     * Retrieves up to 5 snippets matching to given pattern.
+     * @param pattern Pattern for snippets to be matched to.
+     * @see SnippetRepositoryInterface#pullSnippets
+     */ 
     QList<Snippet> pullSnippets(SnippetSearchPattern &pattern) override;
 
 protected:

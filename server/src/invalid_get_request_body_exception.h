@@ -4,6 +4,9 @@
 #include <string>
 #include <exception>
 
+/** @brief Exception thrown by SnippetSearchPattern#fromQueryString when query string is invalid 
+ * (contains unsupported fields or fields cannot be parsed properly)
+ */ 
 class InvalidGetRequestBodyException : public std::exception
 {
 public:
