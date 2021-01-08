@@ -8,7 +8,7 @@ namespace Ui {
 class AddSnippetWindow;
 }
 
-/* brief Class managing window responsible for creating and sending snippets
+/** brief Class managing window responsible for creating and sending snippets
  * User interface is defined in view/addsnippetwindow.ui file
  */
 
