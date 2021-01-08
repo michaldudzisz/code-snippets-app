@@ -14,6 +14,10 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+/* @brief Class managing the main window. 
+ * User interface is defined in view/mainwindow.ui files
+ */
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT

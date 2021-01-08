@@ -4,10 +4,13 @@
 #include <QDialog>
 #include "../communication/worker.h"
 
-
 namespace Ui {
 class AddSnippetWindow;
 }
+
+/* brief Class managing window responsible for creating and sending snippets
+ * User interface is defined in view/addsnippetwindow.ui file
+ */
 
 class AddSnippetWindow : public QDialog
 {
