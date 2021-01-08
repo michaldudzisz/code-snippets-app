@@ -33,12 +33,12 @@ void Worker::get(QString& title, QString& lang, QString& author, QDateTime& date
     connect(reply, &QNetworkReply::readyRead, this, &Worker::readyRead);
 }
 
-void Worker::get(QHash<QString, QString>& hashMap)
+void Worker::get(QHash<QString, QString>& hash_map)
 {
     QUrl url(LOCATION_);
     QUrlQuery query;
 
-    QHashIterator<QString, QString> i(hashMap);
+    QHashIterator<QString, QString> i(hash_map);
     while (i.hasNext()) {
         i.next();
         query.addQueryItem(i.key(), i.value());
