@@ -48,12 +48,12 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
     )
 else()
-    add_executable(projekt
+  add_executable(${PROJECT_NAME}
         ${PROJECT_SOURCES}
     )
 endif()
 
-target_link_libraries(projekt PRIVATE
+target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::Network
     )
