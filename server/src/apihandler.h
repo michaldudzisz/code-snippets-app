@@ -16,16 +16,21 @@
 #include "snippet.h"
 #include "snippet_repository_interface.h"
 
+/** @brief Responsible for mapping REST API requests and handling them as API controller.
+ * Allows using POST requests with JSON body and GET with path variables.
+ */ 
+
 class ApiHandler : public QObject
 {
 
     Q_OBJECT
 
 public:
+    /** Creates default ApiHandler object. */
     ApiHandler();
 
+    /** Runs server. May be called right after creating ApiHandler object with non-parameter constructor. */
     void run();
-    void registerSnippet(Snippet &s);
 
 public slots:
     void handleRequest(QHttpEngine::Socket *socket);
@@ -37,6 +42,7 @@ protected:
     void handleGetRequest(QHttpEngine::Socket *socket);
     void handlePostRequest(QHttpEngine::Socket *socket);
 
+    void registerSnippet(Snippet &s);
     void respondWithJsonArray(QHttpEngine::Socket * socket, const QJsonArray &array);
 
     void resendError(QHttpEngine::Socket * socket, const char * info);
