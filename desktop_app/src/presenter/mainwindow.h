@@ -37,8 +37,8 @@ private slots:
     void on_date_to_box_stateChanged(int arg);
 
 private:
-    const QColor GREY_{140,140,140};
-    const QColor BLACK_{0,0,0};
+    static const QColor GREY_;
+    static const QColor BLACK_;
 
     Ui::MainWindow *ui;
     QVector<Snippet> snippets_;

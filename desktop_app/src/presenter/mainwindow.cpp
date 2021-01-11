@@ -32,10 +32,12 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+const QColor MainWindow::GREY_(140,140,140);
+const QColor MainWindow::BLACK_(0,0,0);
+
 void MainWindow::on_find_button_clicked()
 {
    QHash<QString, QString> map;
-
 
    QString title = ui->title_text->toPlainText();
 
