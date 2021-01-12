@@ -1,8 +1,6 @@
 #include "snippettest.h"
 #include "snippet_repository_concrete_test.h"
 
-//QTEST_MAIN(SnippetTest)
-
 int main(int argc, char *argv[])
 {
     QCoreApplication test(argc, argv);

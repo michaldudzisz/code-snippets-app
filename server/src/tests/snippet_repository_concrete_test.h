@@ -10,14 +10,16 @@ class SnippetRepositoryConcreteTest : public QObject
 
 private slots:
     void initTestCase();
+    void initTestCase_data();
     void saveSnippet();
-    void pullSnippets();
+    void pullSnippetsNoArg();
     void pullSnippetsByAuthorAndTitle();
 
 private:
     Snippet createExampleSnippet();
 
     QSharedPointer<SnippetRepositoryInterface> repository_;
+    QDateTime itnitTestTime_;
 };
 
 #endif

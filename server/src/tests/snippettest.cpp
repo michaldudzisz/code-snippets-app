@@ -133,7 +133,7 @@ void SnippetTest::toJson() const
     json_obj.insert("author", "username");
     json_obj.insert("title", "some title");
     QDateTime time = QDateTime::currentDateTime();
-    json_obj.insert("created", time.toString());
+    json_obj.insert("created", time.toSecsSinceEpoch());
     json_obj.insert("lang", "c++");
     json_obj.insert("content", "void main() {}");
 
@@ -146,15 +146,14 @@ void SnippetTest::fromJson()
 {
     QString author("username");
     QString title("some title");
-    // QDateTime traci na dokladnosci przy parsowaniu, dlatego parsuje od razu:
-    QDateTime created = QDateTime::fromString(QDateTime::currentDateTime().toString());
+    QDateTime created = QDateTime::fromSecsSinceEpoch(QDateTime::currentDateTime().toSecsSinceEpoch());
     QString lang("c++");
     QString content("void main() {}");
 
     QJsonObject json_obj;
     json_obj.insert("author", author);
     json_obj.insert("title", title);
-    json_obj.insert("created", created.toString());
+    json_obj.insert("created", created.toSecsSinceEpoch());
     json_obj.insert("lang", lang);
     json_obj.insert("content", content);
 
@@ -170,15 +169,14 @@ void SnippetTest::fromJsonRValueArg()
 {
     QString author("username");
     QString title("some title");
-    // QDateTime traci na dokladnosci przy parsowaniu, dlatego parsuje od razu:
-    QDateTime created = QDateTime::fromString(QDateTime::currentDateTime().toString());
+    QDateTime created = QDateTime::fromSecsSinceEpoch(QDateTime::currentDateTime().toSecsSinceEpoch());;
     QString lang("c++");
     QString content("void main() {}");
 
     QJsonObject json_obj;
     json_obj.insert("author", author);
     json_obj.insert("title", title);
-    json_obj.insert("created", created.toString());
+    json_obj.insert("created", created.toSecsSinceEpoch());
     json_obj.insert("lang", lang);
     json_obj.insert("content", content);
 
