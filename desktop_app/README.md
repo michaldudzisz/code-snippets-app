@@ -24,6 +24,11 @@ Najprostszym rozwiąniem jest pobranie programu QTCreator, który sam zadba o po
 
 Aby zbudować projekt:
 W konsoli (**Developer Command Prompt for VS 2019**) przejść do folderu z projektem, następnie:
+1. `mkdir build`
+2. `cd buld`
+3. `cmake ..`
+4. `msbuild ALL_BUILD.vcxproj`
+5. `.\Debug\desktop_app.exe`
 
 
 ## Sposób użytkowania aplikacji.
