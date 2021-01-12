@@ -28,7 +28,7 @@ W konsoli (**Developer Command Prompt for VS 2019**) przejść do folderu z proj
 
 ## Sposób użytkowania aplikacji.
 Po uruchomieniu pojawia się główne okno aplikacji.  Wyszukiwanie snippetów odbywa się przy użyciu przycisku find. Żadne z pól wyszukiwania tj. title, author, date from, date to, language, nie jest obowiązkowe do użyciu przy wyszukiwaniu. Zarówno można użyć wszystkich jak i żadnego. 
-Pola, title i author działają na zasadzie podciągu czyli wyszukiwane są wszystkie snippety, które zawierają dany string w tytule.  
+Pola, title i author działają na zasadzie podciągu czyli wyszukiwane są wszystkie snippety, które zawierają dany string w tytule. Jeśli zostanie odnalezione więcej niż 5 snippetów pasujących do danego zapytania, zwracane jest 5 snippetów.  
 Po lewej stronie wyśwetla się lista wyszukanych snippetów, klikając na nazwę snippetu, pojawia się jego zawartość.
 Można dodawać nowe snippety używając opcji "new". Wyświetlane jest nowe okno, gdzie można ustawić tytuł, autora, język oraz zawartość snippetu. Zawartość snippetu można wczytać z pliku, używając opcji "browse". Aby wysłać snippet do bazy danych należy użyć przycisku "add".
 Aby zapisać snippet do pliku, należy w liście snippetów, kliknąć na wybrany snippet oraz następnie użyć opcji "save".
