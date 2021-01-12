@@ -34,4 +34,6 @@ Można dodawać nowe snippety używając opcji "new". Wyświetlane jest nowe okn
 Aby zapisać snippet do pliku, należy w liście snippetów, kliknąć na wybrany snippet oraz następnie użyć opcji "save".
 
 ## Testowanie
-Testowanie komunikacji pomiędzy serwerem, a klientem odbyło się poprzez wysyłanie danych na serwer i sprawdzaniem odpowiedzi. Natomiast testowanie interfejsu graficznego, manualnie poprzez sprawdzenie działania wszystkich dostępnych opcji.
+Testowanie komunikacji pomiędzy serwerem, a klientem odbyło się poprzez wysyłanie danych na serwer i sprawdzaniem odpowiedzi. 
+Testowanie interfejsu graficznego, manualnie poprzez sprawdzenie działania wszystkich dostępnych opcji.
+Testowanie czy nie występują wycieki pamięci dokonano poprzez programu valgrind. Podczas używania tego narzędzia dla aplikacji graficznych używających Qt występuje dużo błędnych komunikatów. Aby rozwiązać ten problem należy wygenerować suppression file, i przy jego użyciu zbadać aplikację pod względem wycieków pamięci. Dokładny opis dostępny jest tutaj:[ https://wiki.wxwidgets.org/Valgrind_Suppression_File_Howto](url) 
