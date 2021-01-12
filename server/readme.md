@@ -26,9 +26,9 @@ Budowanie (lokalnie, w folderze z projektem) biblioteki QHTTPEngine:
 
 1. `$ cd server/lib/qhttpengine`
 
-2. `$ cmake CMakeLists.txt -B build` - nie przejmować się błędem :( naprawię
+2. `$ mkdir build && cd ./build`
 
-3. `$ cd build`
+3. `$ cmake ..`
 
 4. `$ make install`
 
@@ -71,7 +71,7 @@ Wskazówki dotyczące isntalacji:
 * Qt5 - pobrać i uruchomić online installer ze [strony Qt](https://www.qt.io/download-open-source), następnie postępować zgodnie z instrukcjami, by pobrać najnowsze subwersje wersji 5 bibliotek Qt. Po zainstalowaniu może być konieczne dodanie do zmiennej PATH folderu z bibliotekami Qt.
 * SQLite3 - postępować zgodnie z instrukcjami na [stronie](https://www.tutorialspoint.com/sqlite/sqlite_installation.htm).
 
-### Budowanie i uruchomienie projektu
+### Budowanie i uruchomienie serwera
 
 Pobrać repozytorium i wypakować do wybranego folderu. W konsoli (**Developer Command Prompt for VS 2019** lub adekwatnej dla innej wersji Visual Studio) przejść do folderu z projektem, następnie:
 
@@ -125,39 +125,19 @@ Serwer nasłuchuje na porcie 8000 pod adresem `app` (`localhost:8000/app`). Przy
 
   
 
-oraz zapytania `GET` o body będącym pustym obiektem json (`{}`) lub obiektem klasy SnippetSearchPattern zamienionym na json (`SnippetSearchPattern::toJson()`). 
+oraz zapytania `GET`. Można tworzyć zapytania o wyszukanie snippetów pasujących do podanego wzorca według następujących pól zapytania w ścieżce URL: 
 
-Odpowiedzą na zapytanie typu `GET` z body w postaci pustego obiektu json jest lista maksymalnie 5 snippetów w formacie json ostatnio dodanych przez zapytania `POST` (formalnie są to obiekty o najwyższym id w bazie danych). 
+* author_subsequence - string nie dłuższy niż 30 znaków, jeśli pusty - dowolny autor
+* title_subsequence - string nie dłuższy niż 100 znaków, jeśli pusty - dowolny tytuł
+* created_from - data poczatku wyszukiwania w tej samej postaci **Unix time** jak wyżej lub puste jeśli niesprecyzowane
+* created_to - data końca wyszukiwania w tej samej postaci **Unix time** jak wyżej lub puste jeśli niesprecyzowane
+* lang - jeden z napisów identyfikujących język lub pusty string oznaczający dowolny język
 
-Klasa `SnippetSearchPattern` ma pola:
-* authorSubsequence_ - string nie dłuższy niż 30 znaków, jeśli pusty - dowolny autor
-* titleSubsequence_ - string nie dłuższy niż 100 znaków, jeśli pusty - dowolny tytuł
-* createdFrom_ - data w tej samej postaci **Unix time** jak wyżej lub **null** jeśli niesprecyzowane
-* createdTo_ - data w tej samej postaci **Unix time** jak wyżej lub **null** jeśli niesprecyzowane
-* lang_ - jeden z napisów identyfikujących język lub pusty string oznaczający dowolny język
+Przykład: `localhost:8000/app?author_subsequence=usernam&lang=c++` wyszuka snippety, których autor zawiera w nazwie `usernam` a język programowania to c++.
 
-Wszystkie pola są opcjonalne i można je dowolnie łączyć. Do zamieniania klasy `SnippetSearchPattern` na json służy funkcja `SnippetSearchPattern::toJson()` - zamienia ona dobrze niesprecyzowane daty (które normalnie są nieokreślone) na nulle w postaci jsona. 
+Odpowiedzią na zapytanie typu `GET` bez żądania wyszukania konkretnych snippetów jest lista maksymalnie 5 snippetów w formacie json ostatnio dodanych przez zapytania `POST` (formalnie są to obiekty o najwyższym id w bazie danych). 
 
-Obiekt klasy `SnippetSearchPattern` można stworzyć tak:
-
-```c++
-SnippetSearchPattern pattern;
-pattern.setAuthorSubsequence("userna")
-pattern.setLang("c++");
-```
-Każde nieustwione pole ma domyślnie pustą wartość.
-
-Przykładowy json obiektu `SnippetSearchPattern`:
-
-```json
-{
-    "author_subsequence": "",
-    "title_subsequence": "titl",
-    "created_from": 1609675073,
-    "created_to": null,
-    "lang": ""
-}
-```
+Wszystkie pola są opcjonalne i można je dowolnie łączyć.
 
 Wynikiem każdego poprawnego zapytania `GET` jest json - lista obiektów snippet. Może być pusta.
 
