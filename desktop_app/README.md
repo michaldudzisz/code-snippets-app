@@ -1,4 +1,4 @@
-## Uruchomienie projektu na GNU/Linux Ubuntu 20.04
+## Uruchomienie i budowa projektu na GNU/Linux Ubuntu 20.04
 
 Aby móc zbudować projekt niezbędne jest zainstalowanie QT.
 
@@ -19,7 +19,11 @@ Aby uruchomić tak stworzony plik należy wykonać: `./desktop_app` w folderze "
 Instalacja QT5 globalnie:
 `sudo apt-get install qt5-default`
 
-## Uruchomienie programu na systemie Window:
+## Uruchomienie i budowa programu na systemie Windows 10:
+Najprostszym rozwiąniem jest pobranie programu QTCreator, który sam zadba o poprawną instalację i linkowanie biblioteki Qt. Przy pomocy programu można zbudować i uruchomić projekt. Możliwa jest też instalacja manuala. W tym celu należy globalnie zainstalować biblioteki Qt5 oraz pakiet Visual Studio (aplikacja testowana była przy użyciu Visula Studio 2019).
+
+Aby zbudować projekt:
+W konsoli (**Developer Command Prompt for VS 2019**) przejść do folderu z projektem, następnie:
 
 
 ## Sposób użytkowania aplikacji.
