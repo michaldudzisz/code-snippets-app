@@ -28,7 +28,7 @@ Budowanie (lokalnie, w folderze z projektem) biblioteki QHTTPEngine:
 
 2. `$ mkdir build && cd ./build`
 
-3. `$ cmake ..`
+3. `$ cmake ..` - ten etap może wygenerować błąd związany z lokalną instalacją biblioteki. Należy go zignorować i iść dalej.
 
 4. `$ make install`
 
@@ -79,7 +79,7 @@ Pobrać repozytorium i wypakować do wybranego folderu. W konsoli (**Developer C
 
 2. `> mkdir build`
 
-3. `> cmake .. `  - może być potrzebne sprecyzowanie generatora (np. opcja `/G "Visual Studio 16 2019"`). Listę dostępnych w systemie generatorów można uzyskać komendą `cmake /help`.
+3. `> cmake .. `  - może być potrzebne sprecyzowanie generatora (np. opcja `/G "Visual Studio 16 2019"`). Listę dostępnych w systemie generatorów można uzyskać komendą `cmake /help`. Ten etap może też wygenerować błąd związany z lokalną instalacją biblioteki. Należy go zignorować i iść dalej.
 
 4. `> msbuild INSTALL.vcxproj`
 
