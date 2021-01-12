@@ -54,7 +54,7 @@ set_target_properties(qhttpengine PROPERTIES
 target_include_directories(qhttpengine PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
-#    "$<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}>"
+    "$<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}>"
 )
 
 target_link_libraries(qhttpengine Qt5::Network)
