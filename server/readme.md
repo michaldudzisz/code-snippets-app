@@ -81,13 +81,13 @@ Pobrać repozytorium i wypakować do wybranego folderu. W konsoli (**Developer C
 
 3. `> cmake .. `  - może być potrzebne sprecyzowanie generatora (np. opcja `/G "Visual Studio 16 2019"`). Listę dostępnych w systemie generatorów można uzyskać komendą `cmake /help`.
 
-4. `> msbuild ALL_BUILD.vcxproj`
+4. `> msbuild INSTALL.vcxproj`
 
 Stworzenie bazy danych zaczynając w katalogu `code-snippet-app\server\`:
 
 5. `> cd database`
 
-6. `> windows-setup.bat` 
+6. `> .\windows-setup.bat` 
 
 Budowanie projektu zaczynając w katalogu `code-snippet-app\server\`:
 
