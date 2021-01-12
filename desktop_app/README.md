@@ -7,7 +7,7 @@ W celu zbudowania projektu na systemie Linux:
 2. `cmake -H. -Bbuild`
 3. `cd build && make`
 
-W celu uruchomienia projektu: `./desktop_app`.
+W celu uruchomienia projektu: `./desktop_app`. Należy użyć tej komendy znajdując się w folderze "build".
 
 Powyższy sposób budowania aplikacji jest typu out-source. Jednakże metoda ta może nie zadziałać dla niektórych wersji cmake. W takim przypadku można posłużyć się metodą opisaną poniżej.
 W celu zbudowania projektu:
@@ -15,7 +15,7 @@ W celu zbudowania projektu:
 2. `cmake CMakeLists.txt`
 3. `make`
 
-Aby uruchomić tak stworzony plik należy wykonać: `./desktop_app` w folderze "build".
+Aby uruchomić tak stworzony plik należy wykonać: `./desktop_app`.
 Instalacja QT5 globalnie:
 `sudo apt-get install qt5-default`
 
