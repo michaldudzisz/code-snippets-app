@@ -32,3 +32,6 @@ Pola, title i author działają na zasadzie podciągu czyli wyszukiwane są wszy
 Po lewej stronie wyśwetla się lista wyszukanych snippetów, klikając na nazwę snippetu, pojawia się jego zawartość.
 Można dodawać nowe snippety używając opcji "new". Wyświetlane jest nowe okno, gdzie można ustawić tytuł, autora, język oraz zawartość snippetu. Zawartość snippetu można wczytać z pliku, używając opcji "browse". Aby wysłać snippet do bazy danych należy użyć przycisku "add".
 Aby zapisać snippet do pliku, należy w liście snippetów, kliknąć na wybrany snippet oraz następnie użyć opcji "save".
+
+## Testowanie
+Testowanie komunikacji pomiędzy serwerem, a klientem odbyło się poprzez wysyłanie danych na serwer i sprawdzaniem odpowiedzi. Natomiast testowanie interfejsu graficznego, manualnie poprzez sprawdzenie działania wszystkich dostępnych opcji.
