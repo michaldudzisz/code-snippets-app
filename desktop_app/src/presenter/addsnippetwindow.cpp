@@ -15,9 +15,9 @@
 
 AddSnippetWindow::AddSnippetWindow(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::AddSnippetWindow)
+    ui_(new Ui::AddSnippetWindow)
 {
-    ui->setupUi(this);
+    ui_->setupUi(this);
 
     connect(&worker_, &Worker::communication_error, this, &AddSnippetWindow::handle_communication_error);
 }
@@ -25,7 +25,7 @@ AddSnippetWindow::AddSnippetWindow(QWidget *parent) :
 
 AddSnippetWindow::~AddSnippetWindow()
 {
-    delete ui;
+    delete ui_;
 }
 
 
@@ -41,8 +41,7 @@ void AddSnippetWindow::on_browse_button_clicked()
 
     QTextStream in (&file);
     QString text = in.readAll();
-    qDebug() << text;
-    ui->text_snippet->setPlainText(text);
+    ui_->text_snippet->setPlainText(text);
 
     file.close();
 }
@@ -58,13 +57,16 @@ void AddSnippetWindow::on_add_button_clicked()
     try
     {
         Snippet new_snippet(
-                    ui->text_author->toPlainText(),
-                    ui->text_title->toPlainText(),
-                    ui->lang_box->currentText(),
-                    ui->text_snippet->toPlainText()
+                    ui_->text_author->toPlainText(),
+                    ui_->text_title->toPlainText(),
+                    ui_->lang_box->currentText(),
+                    ui_->text_snippet->toPlainText()
                     );
 
         worker_.post(new_snippet);
+        ui_->text_author->clear();
+        ui_->text_title->clear();
+        ui_->text_snippet->clear();
 
     }
     catch(TooLongContentException& e)
@@ -88,17 +90,17 @@ void AddSnippetWindow::handle_communication_error(int status_code)
 
 bool AddSnippetWindow::check_if_filled()
 {
-    if (ui->text_snippet->toPlainText().isEmpty())
+    if (ui_->text_snippet->toPlainText().isEmpty())
     {
         QMessageBox::warning(this, "error", "There is no text");
         return false;
     }
-    if (ui->text_title->toPlainText().isEmpty())
+    if (ui_->text_title->toPlainText().isEmpty())
     {
         QMessageBox::warning(this, "error", "There is no title");
         return false;
     }
-    if (ui->text_author->toPlainText().isEmpty())
+    if (ui_->text_author->toPlainText().isEmpty())
     {
         QMessageBox::warning(this, "error", "There is no author");
         return false;

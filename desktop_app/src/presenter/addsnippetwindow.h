@@ -26,7 +26,7 @@ private slots:
     void handle_communication_error(int status_code);
 
 private:
-    Ui::AddSnippetWindow *ui;
+    Ui::AddSnippetWindow *ui_;
     Worker worker_;
     bool check_if_filled();
 

@@ -40,7 +40,7 @@ private:
     static const QColor GREY_;
     static const QColor BLACK_;
 
-    Ui::MainWindow *ui;
+    Ui::MainWindow *ui_;
     QVector<Snippet> snippets_;
     Worker worker_;
     void show_snippets();

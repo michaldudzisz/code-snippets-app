@@ -12,16 +12,16 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , ui_(new Ui::MainWindow)
 {
-    ui->setupUi(this);
+    ui_->setupUi(this);
 
-    ui->date_to_edit->setDate(QDate::currentDate());
-    ui->date_to_edit->setTime(QTime::currentTime());
-    ui->view_content->setReadOnly(true);
+    ui_->date_to_edit->setDate(QDate::currentDate());
+    ui_->date_to_edit->setTime(QTime::currentTime());
+    ui_->view_content->setReadOnly(true);
 
-    set_date_text_color(ui->date_from_edit, ui->date_from_box->isChecked());
-    set_date_text_color(ui->date_to_edit, ui->date_to_box->isChecked());
+    set_date_text_color(ui_->date_from_edit, ui_->date_from_box->isChecked());
+    set_date_text_color(ui_->date_to_edit, ui_->date_to_box->isChecked());
 
     connect(&worker_, &Worker::data_received, this, &MainWindow::handle_data);
     connect(&worker_, &Worker::communication_error, this, &MainWindow::handle_communication_error);
@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+    delete ui_;
 }
 
 const QColor MainWindow::GREY_(140,140,140);
@@ -39,52 +39,52 @@ void MainWindow::on_find_button_clicked()
 {
    QHash<QString, QString> map;
 
-   QString title = ui->title_text->toPlainText();
+   QString title = ui_->title_text->toPlainText();
+   ui_->view_content->clear();
 
    if (!title.isEmpty())
    {
        map.insert("title_subsequence", title);
    }
 
-   QString lang = ui->langBox->currentText();
+   QString lang = ui_->langBox->currentText();
 
    if (lang != "all")
    {
        map.insert("lang", lang);
    }
 
-   QString author = ui->author_text->toPlainText();
+   QString author = ui_->author_text->toPlainText();
 
    if (!author.isEmpty())
    {
        map.insert("author_subsequence", author);
    }
 
-   if (ui->date_from_box->isChecked())
+   if (ui_->date_from_box->isChecked())
    {
-       QDateTime date_from = ui->date_from_edit->dateTime();
+       QDateTime date_from = ui_->date_from_edit->dateTime();
        qint64 int_date_from = date_from.toSecsSinceEpoch();
        QString string_date_from = QString::number(int_date_from);
 
        map.insert("created_from", string_date_from);
    }
 
-   if (ui->date_to_box->isChecked())
+   if (ui_->date_to_box->isChecked())
    {
-       QDateTime date_to = ui->date_to_edit->dateTime();
+       QDateTime date_to = ui_->date_to_edit->dateTime();
        qint64 int_date_to = date_to.toSecsSinceEpoch();
        QString string_date_to = QString::number(int_date_to);
 
        map.insert("created_to", string_date_to);
    }
-
    worker_.get(map);
 }
 
 void MainWindow::on_list_snippets_itemClicked(/*QListWidgetItem *item*/)
 {
-    int chosen = ui->list_snippets->currentRow();
-    ui->view_content->setText(snippets_[chosen].content());
+    int chosen = ui_->list_snippets->currentRow();
+    ui_->view_content->setText(snippets_[chosen].content());
 }
 
 void MainWindow::on_new_button_clicked()
@@ -96,17 +96,17 @@ void MainWindow::on_new_button_clicked()
 
 void MainWindow::show_snippets()
 {
-    ui->list_snippets->clear();
+    ui_->list_snippets->clear();
 
     for (auto& elem : snippets_)
     {
-        ui->list_snippets->addItem(elem.title());
+        ui_->list_snippets->addItem(elem.title());
     }
 }
 
 void MainWindow::on_save_clicked()
 {
-    if (ui->list_snippets->currentRow() == -1)
+    if (ui_->list_snippets->currentRow() == -1)
     {
         QMessageBox::warning(this, "Error", "no snippet chosen");
         return;
@@ -134,7 +134,7 @@ void MainWindow::on_save_clicked()
     }
 
     QTextStream out(&file);
-    int chosen = ui->list_snippets->currentRow();
+    int chosen = ui_->list_snippets->currentRow();
     out << snippets_[chosen].content();
     file.flush();
     file.close();
@@ -172,12 +172,12 @@ void MainWindow::handle_communication_error(int status_code)
 
 void MainWindow::on_date_from_box_stateChanged(int arg)
 {
-    set_date_text_color(ui->date_from_edit, arg);
+    set_date_text_color(ui_->date_from_edit, arg);
 }
 
 void MainWindow::on_date_to_box_stateChanged(int arg)
 {
-    set_date_text_color(ui->date_to_edit, arg);
+    set_date_text_color(ui_->date_to_edit, arg);
 }
 
 void MainWindow::set_date_text_color(QDateTimeEdit* widget, int arg)

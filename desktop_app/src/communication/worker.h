@@ -37,14 +37,14 @@ signals:
     void communication_error(int status_code);
 
 public slots:
-    /* Method allowing sending get request. Request is created basing on given argument.
+    /** Method allowing sending get request. Request is created basing on given argument.
      * @param hash_map map with possible following keys: author_subsequence,
      * title_subsequence, author_subsequence, created_from, created_to.
      * Map does not need to contain all the possible keys
      */
     void get(QHash<QString, QString>& hash_map);
 
-    /* Method allowing sending post request. Request is created basing on given argument.
+    /** Method allowing sending post request. Request is created basing on given argument.
      * @param snip an object containing all information about data to be sent.
      */
     void post(Snippet& snip);
