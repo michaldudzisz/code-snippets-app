@@ -5,9 +5,9 @@
 #include <QMainWindow>
 #include <QListWidgetItem>
 #include <QDateTimeEdit>
-#include <../server/src/snippet.h>
+#include "../model/snippet.h"
 #include "addsnippetwindow.h"
-#include <src/communication/worker.h>
+#include "src/communication/worker.h"
 
 
 QT_BEGIN_NAMESPACE

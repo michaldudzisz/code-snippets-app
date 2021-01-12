@@ -5,9 +5,9 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QFileDialog>
-#include <../server/src/snippet.h>
-#include <../server/src/too_long_content_exception.h>
-#include <../server/src/unsupported_language_exception.h>
+#include "../model/snippet.h"
+#include "../model/too_long_content_exception.h"
+#include "../model/unsupported_language_exception.h"
 #include <QDateTime>
 #include <QJsonObject>
 #include "../communication/worker.h"

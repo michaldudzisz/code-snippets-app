@@ -32,19 +32,19 @@ set(PROJECT_SOURCES
         src/view/addsnippetwindow.ui
         src/communication/worker.cpp
         src/communication/worker.h
-        ../server/src/snippet.h
-        ../server/src/snippet.cpp
-        ../server/src/too_long_content_exception.h
-        ../server/src/too_long_content_exception.cpp
-        ../server/src/invalid_snippet_json_exception.h
-        ../server/src/invalid_snippet_json_exception.cpp
-        ../server/src/unsupported_language_exception.h
-        ../server/src/unsupported_language_exception.cpp
+        src/model/snippet.h
+        src/model/snippet.cpp
+        src/model/too_long_content_exception.h
+        src/model/too_long_content_exception.cpp
+        src/model/invalid_snippet_json_exception.h
+        src/model/invalid_snippet_json_exception.cpp
+        src/model/unsupported_language_exception.h
+        src/model/unsupported_language_exception.cpp
 
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(projekt
+    qt_add_executable(desktop_app
         ${PROJECT_SOURCES}
     )
 else()
